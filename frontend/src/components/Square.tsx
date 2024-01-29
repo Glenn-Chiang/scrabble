@@ -1,7 +1,7 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAppSelector } from "../redux-config/store";
-import { Tile } from "./Tile";
+import { PlayedTile } from "./Tile";
 
 interface SquareProps {
   value: string;
@@ -15,7 +15,7 @@ export const Square = ({ value, row, col }: SquareProps) => {
 
   // If this square is occupied by a tile, render the tile instead of the empty square
   if (tile) {
-    return <Tile letter={tile} />;
+    return <PlayedTile letter={tile} />;
   }
 
   const color = getSquareColor(value);
