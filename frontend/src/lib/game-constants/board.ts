@@ -1,7 +1,8 @@
 // Initializes an empty board
+export const boardRows = 15
+
 export function createBoard(): string[][] {
-  const numRows = 15
-  const boardMatrix = Array(numRows);
+  const boardMatrix = Array(boardRows);
   
   const boardTopHalf = [
     ['3W','','','2L','','','','3W','','','','2L','','','3W'],
@@ -14,12 +15,12 @@ export function createBoard(): string[][] {
   ]
   
   // Initialize top half and bottom half of board
-  for (let i = 0; i < numRows / 2; i++) {
+  for (let i = 0; i < boardRows / 2; i++) {
     boardMatrix[i] = boardTopHalf[i]
-    boardMatrix[numRows - i - 1] = boardTopHalf[i]
+    boardMatrix[boardRows - i - 1] = boardTopHalf[i]
   }
   // Initialize middle row
-  boardMatrix[Math.floor(numRows / 2)] = ['3W','','','2L','','','','*','','','','2L','','','3W']
+  boardMatrix[Math.floor(boardRows / 2)] = ['3W','','','2L','','','','*','','','','2L','','','3W']
 
   return boardMatrix
 }

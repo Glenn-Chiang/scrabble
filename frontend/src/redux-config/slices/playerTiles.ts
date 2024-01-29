@@ -14,5 +14,3 @@ export const playerTilesSlice = createSlice({
 })
 
 export const selectPlayerTiles = (state: RootState) => state.playerTiles
-
-export const playerTilesReducer = playerTilesSlice.reducer
