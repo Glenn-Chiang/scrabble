@@ -11,10 +11,10 @@ export default function Play() {
   const playerTiles = useAppSelector(selectPlayerTiles)
 
   console.log('tile bag:', tileBag)
-  console.log('player rack:', playerTiles)
+  console.log('player tiles:', playerTiles)
 
   return (
-    <main className="flex flex-col justify-center items-center w-full">
+    <main className="flex flex-col gap-4 justify-center items-center w-full">
       <Board/>
       <button onClick={() => drawTiles(1, 7)} className="bg-sky-500 text-white">
         Draw tiles

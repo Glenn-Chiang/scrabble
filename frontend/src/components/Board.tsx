@@ -5,7 +5,7 @@ import { faStar } from "@fortawesome/free-regular-svg-icons"
 export const Board = () => {
   const boardMatrix = createBoard()
   return (
-    <ul className="w-screen overflow-x-scroll sm:overflow-hidden sm:w-auto flex flex-col gap-1">
+    <ul className="w-full overflow-x-scroll sm:overflow-hidden sm:w-auto flex flex-col gap-1">
       {boardMatrix.map((row, i) => <Row key={i} values={row}/>)}
     </ul>
   )

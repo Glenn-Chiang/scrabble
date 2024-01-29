@@ -1,5 +1,5 @@
 export const tileCounts: {[letter: string]: number} = {
-  E: 1,
+  E: 12,
   A: 9,
   I: 9,
   O: 8,
@@ -28,7 +28,7 @@ export const tileCounts: {[letter: string]: number} = {
   BLANK: 2
 };
 
-export const tilePoints = {
+export const tilePoints: {[letter: string]: number} = {
   E: 1,
   A: 1,
   I: 1,
