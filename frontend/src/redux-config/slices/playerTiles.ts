@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { useAppSelector } from "../store";
+import { RootState } from "../store";
 
 const initialState: string[] = []
 
@@ -13,6 +13,4 @@ export const playerTilesSlice = createSlice({
   }
 })
 
-export const usePlayerTiles = () => {
-  return useAppSelector(state => state.playerTiles)
-}
+export const selectPlayerTiles = (state: RootState) => state.playerTiles

@@ -1,10 +1,8 @@
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSelectedTileIndex } from "../redux-config/slices/play";
-import { usePlayerTiles } from "../redux-config/slices/playerTiles";
+import { tileGridSlice } from "../redux-config/slices/tileGrid";
 import { useAppDispatch, useAppSelector } from "../redux-config/store";
 import { PlayedTile } from "./Tile";
-import { tileGridSlice } from "../redux-config/slices/tileGrid";
 
 interface SquareProps {
   value: string;
@@ -25,8 +23,8 @@ export const Square = ({ value, row, col }: SquareProps) => {
 };
 
 export const EmptySquare = ({value, row, col}: SquareProps) => {
-  const selectedTileIndex = useSelectedTileIndex();
-  const playerTiles = usePlayerTiles()
+  const selectedTileIndex = useAppSelector(state => state.play.selectedTileIndex)
+  const playerTiles = useAppSelector(state => state.playerTiles)
   const selectedLetter = playerTiles[selectedTileIndex]
 
   const dispatch = useAppDispatch()
