@@ -1,7 +1,10 @@
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAppSelector } from "../redux-config/store";
+import { useSelectedTileIndex } from "../redux-config/slices/play";
+import { usePlayerTiles } from "../redux-config/slices/playerTiles";
+import { useAppDispatch, useAppSelector } from "../redux-config/store";
 import { PlayedTile } from "./Tile";
+import { tileGridSlice } from "../redux-config/slices/tileGrid";
 
 interface SquareProps {
   value: string;
@@ -18,9 +21,24 @@ export const Square = ({ value, row, col }: SquareProps) => {
     return <PlayedTile letter={tile} />;
   }
 
+  return <EmptySquare value={value} row={row} col={col}/>;
+};
+
+export const EmptySquare = ({value, row, col}: SquareProps) => {
+  const selectedTileIndex = useSelectedTileIndex();
+  const playerTiles = usePlayerTiles()
+  const selectedLetter = playerTiles[selectedTileIndex]
+
+  const dispatch = useAppDispatch()
+
+  const handleClick = () => {
+    dispatch(tileGridSlice.actions.placeTile({row, col, letter: selectedLetter}))
+  };
+
   const color = getSquareColor(value);
   return (
     <div
+      onClick={handleClick}
       className={`${color} text-white rounded min-w-10 h-10 flex justify-center items-center`}
     >
       {value === "*" ? <FontAwesomeIcon icon={faStar} /> : value}

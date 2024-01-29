@@ -1,6 +1,6 @@
 import { tilePoints } from "../lib/game-constants/tiles";
-import { playSlice } from "../redux-config/slices/play";
-import { useAppDispatch, useAppSelector } from "../redux-config/store";
+import { playSlice, useSelectedTileIndex } from "../redux-config/slices/play";
+import { useAppDispatch } from "../redux-config/store";
 
 // Tile already placed on board
 export const PlayedTile = ({ letter }: { letter: string }) => {
@@ -27,9 +27,7 @@ export const PlayableTile = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const selectedTileIndex = useAppSelector(
-    (state) => state.play.selectedTileIndex
-  );
+  const selectedTileIndex = useSelectedTileIndex();
 
   const handleClick = () => {
     dispatch(playSlice.actions.selectTile(index));

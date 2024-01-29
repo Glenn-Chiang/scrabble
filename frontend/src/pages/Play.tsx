@@ -1,12 +1,11 @@
 import { Board } from "../components/Board";
 import { PlayerRack } from "../components/PlayerRack";
 import { useDrawTiles } from "../lib/game-mechanics/drawTiles";
-import { selectPlayerTiles } from "../redux-config/slices/playerTiles";
-import { useAppSelector } from "../redux-config/store";
+import { usePlayerTiles } from "../redux-config/slices/playerTiles";
 
 export default function Play() {
   const drawTiles = useDrawTiles()
-  const playerTiles = useAppSelector(selectPlayerTiles)
+  const playerTiles = usePlayerTiles()
 
   return (
     <main className="flex flex-col gap-4 justify-center items-center w-full">
