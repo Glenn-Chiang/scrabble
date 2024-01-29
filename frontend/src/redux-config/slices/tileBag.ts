@@ -3,7 +3,7 @@ import { tileCounts } from "../../lib/game-constants/tiles";
 import { RootState } from "../store";
 
 const slice = createSlice({
-  name: "tileBag",
+  name: "tile-bag",
   initialState: tileCounts, // Initialize with full bag of tiles
   reducers: {
     removeTile: (tileCounts, action: PayloadAction<[string, number]>) => {
@@ -15,6 +15,6 @@ const slice = createSlice({
 
 export const { removeTile} = slice.actions;
 
-export const selectTileCounts = (state: RootState) => state.tileBag;
+export const selectTileBag = (state: RootState) => state.tileBag;
 
 export const tileBagReducer = slice.reducer;
