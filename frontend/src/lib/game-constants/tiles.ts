@@ -25,9 +25,10 @@ export const tileCounts = {
   X: 1,
   Q: 1,
   Z: 1,
+  BLANK: 2
 };
 
-export const tileScores = {
+export const tilePoints = {
   E: 1,
   A: 1,
   I: 1,
@@ -54,4 +55,5 @@ export const tileScores = {
   X: 8,
   Q: 10,
   Z: 10,
+  BLANK: 0
 };
