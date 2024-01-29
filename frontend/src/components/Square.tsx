@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { playGridSlice } from "../redux-config/slices/playGrid";
 import { useAppDispatch, useAppSelector } from "../redux-config/store";
 import { FixedTile, PlayedTile } from "./Tile";
+import { playerTilesSlice } from "../redux-config/slices/playerTiles";
 
 interface SquareProps {
   value: string;
@@ -38,10 +39,14 @@ export const EmptySquare = ({ value, row, col }: SquareProps) => {
 
   const dispatch = useAppDispatch();
 
+  // Clicking an empty square will place the selected tile on that square and remove it from the player's tile rack
   const handleClick = () => {
     dispatch(
       playGridSlice.actions.placeTile({ row, col, letter: selectedLetter })
     );
+    dispatch(
+      playerTilesSlice.actions.removeTile(selectedLetter)
+    )
   };
 
   const color = getSquareColor(value);

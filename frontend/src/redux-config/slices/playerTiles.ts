@@ -10,6 +10,12 @@ export const playerTilesSlice = createSlice({
   reducers: {
     addTile: (tiles, action: PayloadAction<string>) => {
         tiles.push(action.payload)
+    },
+    removeTile: (tiles, action: PayloadAction<string>) => {
+      const indexToRemove = tiles.indexOf(action.payload)
+      if (indexToRemove != -1) {
+        tiles.splice(indexToRemove, 1)
+      }
     }
   }
 })

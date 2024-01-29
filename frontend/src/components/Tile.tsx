@@ -1,6 +1,7 @@
 import { tilePoints } from "../lib/game-constants/tiles";
 import { playSlice } from "../redux-config/slices/play";
 import { playGridSlice } from "../redux-config/slices/playGrid";
+import { playerTilesSlice } from "../redux-config/slices/playerTiles";
 import { useAppDispatch, useAppSelector } from "../redux-config/store";
 
 // Tile which has already been placed on the board on a previous turn. Cannot be removed.
@@ -30,7 +31,10 @@ export const PlayedTile = ({ letter, row, col }: PlayedTileProps) => {
   const dispatch = useAppDispatch();
 
   const handleClick = () => {
+    // Remove tile from board
     dispatch(playGridSlice.actions.removeTile({ row, col }));
+    // Return tile to player's tile rack
+    dispatch(playerTilesSlice.actions.addTile(letter))
   };
 
   return (
