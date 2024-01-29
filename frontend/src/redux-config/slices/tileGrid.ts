@@ -14,13 +14,16 @@ export const tileGridSlice = createSlice({
   name: "tile-grid",
   initialState,
   reducers: {
-    placeTile: (
-      grid,
-      action: PayloadAction<{ row: number; col: number; letter: string }>
-    ) => {
-      const { row, col, letter } = action.payload;
-      grid[row][col] = letter;
-    },
+    placeTiles: (grid, action: PayloadAction<string[][]>) => {
+      const playGrid = action.payload
+      for (let i = 0; i < playGrid.length; i++) {
+        for (let j = 0; j < playGrid.length; j++) {
+          if (playGrid[i][j]) {
+            grid[i][j] = playGrid[i][j]
+          }
+        }
+      }
+    }
   },
 });
 

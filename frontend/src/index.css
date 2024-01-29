@@ -6,4 +6,7 @@
     body {
         @apply font-montserrat bg-slate-100
     }
+    button {
+        @apply transition p-2 rounded
+    }
 }
