@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../../redux-config/store";
 import { removeTile, selectTileBag } from "../../redux-config/slices/tileBag";
-import { playerRackSlice } from "../../redux-config/slices/playerRack";
+import { playerTilesSlice } from "../../redux-config/slices/playerTiles";
 
 export const useDrawTiles = () => {
   const dispatch = useAppDispatch();
@@ -13,15 +13,14 @@ export const useDrawTiles = () => {
       numberToDraw
     );
 
-    console.log(selectedTiles)
-
     for (const letter of Object.keys(selectedTiles)) {
+      const count = selectedTiles[letter]
       // Remove tiles from tileBag
-      dispatch(removeTile([letter, selectedTiles[letter]]));
+      dispatch(removeTile([letter, count]));
       // Add tile to player's rack
-      dispatch(
-        playerRackSlice.actions.addTile([letter, selectedTiles[letter]])
-      );
+      for (let i = 0; i < count; i++) {
+        dispatch(playerTilesSlice.actions.addTile(letter))
+      }
     }
   };
 };
@@ -44,6 +43,6 @@ const getRandomTiles = (
     numberDrawn++
     result[letter] = (result[letter] || 0) + 1;
   }
-  console.log(result)
+
   return result;
 };

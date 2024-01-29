@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { tileBagReducer } from "./slices/tileBag";
-import { playerRackReducer } from "./slices/playerRack";
+import { playerTilesReducer } from "./slices/playerTiles";
 
 export const store = configureStore({
   reducer: {
     tileBag: tileBagReducer,
-    playerRack: playerRackReducer
+    playerTiles: playerTilesReducer
   }
 })
 

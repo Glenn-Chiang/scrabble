@@ -1,16 +1,17 @@
 import { Board } from "../components/Board";
+import { PlayerRack } from "../components/PlayerRack";
 import { useDrawTiles } from "../lib/game-mechanics/drawTiles";
-import { selectPlayerRack } from "../redux-config/slices/playerRack";
+import { selectPlayerTiles } from "../redux-config/slices/playerTiles";
 import { selectTileBag } from "../redux-config/slices/tileBag";
 import { useAppSelector } from "../redux-config/store";
 
 export default function Play() {
   const drawTiles = useDrawTiles()
   const tileBag = useAppSelector(selectTileBag)
-  const playerRack = useAppSelector(selectPlayerRack)
+  const playerTiles = useAppSelector(selectPlayerTiles)
 
   console.log('tile bag:', tileBag)
-  console.log('player rack:', playerRack)
+  console.log('player rack:', playerTiles)
 
   return (
     <main className="flex flex-col justify-center items-center w-full">
@@ -18,6 +19,7 @@ export default function Play() {
       <button onClick={() => drawTiles(1, 7)} className="bg-sky-500 text-white">
         Draw tiles
       </button>
+      <PlayerRack tiles={playerTiles}/>
     </main>
   )
 }
