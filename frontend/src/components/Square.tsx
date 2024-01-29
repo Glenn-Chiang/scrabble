@@ -35,12 +35,12 @@ export const EmptySquare = ({value, row, col}: SquareProps) => {
 
   const color = getSquareColor(value);
   return (
-    <div
+    <button
       onClick={handleClick}
-      className={`${color} text-white rounded min-w-10 h-10 flex justify-center items-center`}
+      className={`${color} hover:shadow text-white rounded min-w-10 h-10 flex justify-center items-center`}
     >
       {value === "*" ? <FontAwesomeIcon icon={faStar} /> : value}
-    </div>
+    </button>
   );
 };
 

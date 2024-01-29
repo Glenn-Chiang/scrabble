@@ -1,17 +1,16 @@
-// Not to be confused with boardMatrix or playGrid
-// tileGrid refers to the positions of the letter tiles that have already been played on the board
-// Tiles in tileGrid cannot be moved
+// Not to be confused with boardMatrix or tileGrid
+// playGrid refers to the positions of the tiles placed during the current turn
+// Tiles in playGrid CAN be removed and returned to the player rack
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { boardRows } from "../../lib/game-constants/board";
-import { RootState } from "../store";
 
 const initialState: string[][] = Array.from({ length: boardRows }, () =>
   Array(boardRows).fill("")
 );
 
-export const tileGridSlice = createSlice({
-  name: "tile-grid",
+export const playGridSlice = createSlice({
+  name: 'play-grid',
   initialState,
   reducers: {
     placeTile: (
@@ -21,7 +20,5 @@ export const tileGridSlice = createSlice({
       const { row, col, letter } = action.payload;
       grid[row][col] = letter;
     },
-  },
-});
-
-export const selectTileGrid = (state: RootState) => state.tileGrid;
+  }
+})
