@@ -1,3 +1,4 @@
+// Initializes an empty board
 export function createBoard(): string[][] {
   const numRows = 15
   const boardMatrix = Array(numRows);

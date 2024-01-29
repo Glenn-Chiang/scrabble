@@ -1,4 +1,4 @@
-export const tileCounts = {
+export const tileCounts: {[letter: string]: number} = {
   E: 1,
   A: 9,
   I: 9,
