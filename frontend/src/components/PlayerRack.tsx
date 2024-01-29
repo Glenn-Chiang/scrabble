@@ -1,4 +1,4 @@
-import { tilePoints } from "../lib/game-constants/tiles";
+import { Tile } from "./Tile";
 
 export const PlayerRack = ({ tiles }: { tiles: string[] }) => {
   return (
@@ -10,12 +10,3 @@ export const PlayerRack = ({ tiles }: { tiles: string[] }) => {
   );
 };
 
-const Tile = ({ letter }: { letter: string }) => {
-  const points = tilePoints[letter];
-  return (
-    <div className="bg-white rounded w-10 h-10 flex justify-center items-center shadow font-bold relative">
-      {letter === "BLANK" ? "" : letter}
-      <span className="absolute bottom-0 right-1 text-xs">{points}</span>
-    </div>
-  );
-};
