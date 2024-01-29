@@ -10,7 +10,7 @@ const initialState: string[][] = Array.from({ length: boardRows }, () =>
 );
 
 export const playGridSlice = createSlice({
-  name: 'play-grid',
+  name: "play-grid",
   initialState,
   reducers: {
     placeTile: (
@@ -20,5 +20,9 @@ export const playGridSlice = createSlice({
       const { row, col, letter } = action.payload;
       grid[row][col] = letter;
     },
-  }
-})
+    removeTile: (grid, action: PayloadAction<{ row: number; col: number }>) => {
+      const { row, col } = action.payload;
+      grid[row][col] = "";
+    },
+  },
+});
