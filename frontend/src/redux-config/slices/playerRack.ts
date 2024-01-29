@@ -9,7 +9,7 @@ export const playerRackSlice = createSlice({
   reducers: {
     addTile: (tileCounts, action: PayloadAction<[string, number]>) => {
       const [tile, numberToAdd] = action.payload
-      tileCounts[tile] += (tileCounts[tile] || 0) + numberToAdd;
+      tileCounts[tile] = (tileCounts[tile] || 0) + numberToAdd;
     }
   }
 })
