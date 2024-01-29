@@ -1,8 +1,8 @@
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { tileGridSlice } from "../redux-config/slices/tileGrid";
+import { playGridSlice } from "../redux-config/slices/playGrid";
 import { useAppDispatch, useAppSelector } from "../redux-config/store";
-import { PlayedTile } from "./Tile";
+import { FixedTile, PlayedTile } from "./Tile";
 
 interface SquareProps {
   value: string;
@@ -12,25 +12,36 @@ interface SquareProps {
 
 export const Square = ({ value, row, col }: SquareProps) => {
   const tileGrid = useAppSelector((state) => state.tileGrid);
-  const tile = tileGrid[row][col];
+  const fixedTile = tileGrid[row][col];
+
+  const playGrid = useAppSelector((state) => state.playGrid);
+  const playedTile = playGrid[row][col];
 
   // If this square is occupied by a tile, render the tile instead of the empty square
-  if (tile) {
-    return <PlayedTile letter={tile} />;
+  if (fixedTile) {
+    return <FixedTile letter={fixedTile} />;
   }
 
-  return <EmptySquare value={value} row={row} col={col}/>;
+  if (playedTile) {
+    return <PlayedTile letter={playedTile} row={row} col={col} />;
+  }
+
+  return <EmptySquare value={value} row={row} col={col} />;
 };
 
-export const EmptySquare = ({value, row, col}: SquareProps) => {
-  const selectedTileIndex = useAppSelector(state => state.play.selectedTileIndex)
-  const playerTiles = useAppSelector(state => state.playerTiles)
-  const selectedLetter = playerTiles[selectedTileIndex]
+export const EmptySquare = ({ value, row, col }: SquareProps) => {
+  const selectedTileIndex = useAppSelector(
+    (state) => state.play.selectedTileIndex
+  );
+  const playerTiles = useAppSelector((state) => state.playerTiles);
+  const selectedLetter = playerTiles[selectedTileIndex];
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const handleClick = () => {
-    dispatch(tileGridSlice.actions.placeTile({row, col, letter: selectedLetter}))
+    dispatch(
+      playGridSlice.actions.placeTile({ row, col, letter: selectedLetter })
+    );
   };
 
   const color = getSquareColor(value);
