@@ -9,7 +9,7 @@ export default function Play() {
   const playerTiles = useAppSelector(state => state.playerTiles)
 
   const endTurn = useEndTurn()
-
+  
   return (
     <main className="flex flex-col gap-4 justify-center items-center w-full">
       <Board/>
