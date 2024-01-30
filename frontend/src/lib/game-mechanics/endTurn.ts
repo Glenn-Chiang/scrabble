@@ -1,3 +1,4 @@
+import { playGridSlice } from "../../redux-config/slices/playGrid"
 import { tileGridSlice } from "../../redux-config/slices/tileGrid"
 import { useAppDispatch, useAppSelector } from "../../redux-config/store"
 
@@ -5,7 +6,7 @@ export const useEndTurn = () => {
   // const tileGrid = useAppSelector(state => state.tileGrid)
   const playGrid = useAppSelector(state => state.playGrid)
   console.log(playGrid)
-  
+
   const dispatch = useAppDispatch()
   
   return (): boolean => {
@@ -15,6 +16,8 @@ export const useEndTurn = () => {
 
     // Confirm placement of tiles into tileGrid. They will now be fixed.
     dispatch(tileGridSlice.actions.placeTiles(playGrid))
+    // Clear the playGrid to prepare for next turn
+    dispatch(playGridSlice.actions.clear())
     return true
   }
 }
@@ -36,17 +39,18 @@ function checkSameRow(grid: string[][]) {
 function checkSameColumn(grid: string[][]) {
   let filledColumns = 0
   // Iterate over columns
-  for (let i = 0; i < grid[0].length; i++) {
+  for (let col = 0; col < grid[0].length; col++) {
     // check if there is at least 1 filled cell in this column
     let columnIsFilled = false; 
-    for (let j = 0; j < grid.length; j++) {
-      if (grid[i][j]) {
+    for (let row = 0; row < grid.length; row++) {
+      if (grid[row][col]) {
         columnIsFilled = true;
       }
     }
     if (columnIsFilled) {
       filledColumns++;
     }
+    console.log(filledColumns)
     if (filledColumns > 1) {
       return false
     }
