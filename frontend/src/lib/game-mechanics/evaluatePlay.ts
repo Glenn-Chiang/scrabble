@@ -1,17 +1,62 @@
 // Check that tiles in playGrid are either all in the same row or all in the same column
-export function validateTilePlacement(grid: string[][]) {
-  return checkSameRow(grid) || checkSameColumn(grid);
+export function validateTilePlacement(playGrid: string[][], tileGrid: string[][]) {
+  const playedRow = getPlayedRow(playGrid)
+  const playedColumn = getPlayedColumn(playGrid)
+  const sameRow = playedRow != -1
+  const sameColumn = playedColumn != -1
+  if (!sameRow && !sameColumn) return false
+  
+  // If play is horizontal, check that there are no empty cells between leftmost played tile and rightmost played tile  
+  if (sameRow && !checkHorizontalAdjacency(playGrid, tileGrid, playedRow)) {
+    return false
+  }
+  // If play is vertical, check that there are no empty cells between topmost played tile and bottommost played tile
+  if  (sameColumn && !checkVerticalAdjacency(playGrid, tileGrid, playedColumn)) {
+    return false
+  }
+
+  return true
 }
 
-// function getPlayedPosition(grid: string[][]) {
-//   const playedRow = getPlayedRow(grid)
-//   const playedColumn = getPlayedColumn(grid)
+// If play is horizontal, check that there are no empty cells between leftmost played tile and rightmost played tile  
+function checkHorizontalAdjacency(playGrid: string[][], tileGrid: string[][], playedRow: number) {
+  const playedColIndices = []
+  for (let col = 0; col < playGrid[0].length; col++) {
+    if (playGrid[playedRow][col]) {
+      playedColIndices.push(col)
+    }
+  }
+
+  const leftmostCol = playedColIndices[0]
+  const rightmostCol = playedColIndices[playedColIndices.length - 1]
+  for (let col = leftmostCol + 1; col < rightmostCol; col++) {
+    if (!tileGrid[playedRow][col] && !playGrid[playedRow][col]) {
+      return false
+    }
+  }
+  return true
+}
+
+// If play is vertical, check that there are no empty cells between topmost played tile and bottommost played tile
+function checkVerticalAdjacency(playGrid: string[][], tileGrid: string[][], playedColumn: number) {
+  const playedRowIndices = []
+  for (let row = 0; row < playGrid.length; row++) {
+    if (playGrid[row][playedColumn]) {
+      playedRowIndices.push(row)
+    }
+  }
+
+  const topRow = playedRowIndices[0]
+  const bottomRow = playedRowIndices[playedRowIndices.length - 1]
+  for (let row = topRow + 1; row < bottomRow; row++) {
+    if (!tileGrid[row][playedColumn] && !playGrid[row][playedColumn]) {
+      return false
+    }
+  }
   
-//   // Invalid play due to tiles being placed in multiple rows and columns
-//   if (playedRow == -1 && playedColumn == -1) {
-//     return {direction: 'invalid'}
-//   }
-// }
+  return true
+}
+
 
 // Find row in which tiles were played in a horizontal play
 export function getPlayedRow(grid: string[][]) {
@@ -45,34 +90,3 @@ export function getPlayedColumn(grid: string[][]) {
   return playedColumn;
 }
 
-// Check whether all filled cells are in the same row
-function checkSameRow(grid: string[][]) {
-  // Number of rows that are completely empty
-  const emptyRows = grid.filter((row) =>
-    row.every((cell) => cell === "")
-  ).length;
-  // If number of empty rows is total number of rows - 1, that means all filled cells are in the same row
-  return emptyRows === grid.length - 1;
-}
-
-// Check whether all filled cells are in the same column
-function checkSameColumn(grid: string[][]) {
-  let filledColumns = 0;
-  // Iterate over columns
-  for (let col = 0; col < grid[0].length; col++) {
-    // check if there is at least 1 filled cell in this column
-    let columnIsFilled = false;
-    for (let row = 0; row < grid.length; row++) {
-      if (grid[row][col]) {
-        columnIsFilled = true;
-      }
-    }
-    if (columnIsFilled) {
-      filledColumns++;
-    }
-    if (filledColumns > 1) {
-      return false;
-    }
-  }
-  return true;
-}

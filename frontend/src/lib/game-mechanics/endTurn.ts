@@ -17,13 +17,13 @@ export const useEndTurn = () => {
   const dispatch = useAppDispatch();
 
   return (): boolean => {
-    if (!validateTilePlacement(playGrid)) {
+    if (!validateTilePlacement(playGrid, tileGrid)) {
       return false;
     }
 
     // Determine row in which tiles were played during current turn, assuming that a horizontal play was made
     const playedRow = getPlayedRow(playGrid);
-    // DEtermine column in which tiles were played during current turn, assuming that a vertical play was made
+    // Determine column in which tiles were played during current turn, assuming that a vertical play was made
     const playedColumn = getPlayedColumn(playGrid);
 
     // TODO: Check that all words formed are valid
