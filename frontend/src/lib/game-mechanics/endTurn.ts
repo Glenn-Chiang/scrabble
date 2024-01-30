@@ -7,7 +7,8 @@ import {
   getPlayedRow,
   validateTilePlacement,
 } from "./evaluatePlay";
-import { calculateHorizontalPlayScore, calculateVerticalPlayScore } from "./calculateScore";
+import { scoreHorizontalPlay } from "./scoreHorizontalPlay";
+import { scoreVerticalPlay } from "./scoreVerticalPlay";
 
 export const useEndTurn = () => {
   const tileGrid = useAppSelector((state) => state.tileGrid);
@@ -34,7 +35,7 @@ export const useEndTurn = () => {
     let score = 0;
     // Calculate score for horizontal play
     if (playedRow != -1) {
-      score = calculateHorizontalPlayScore(
+      score = scoreHorizontalPlay(
         tileGrid,
         playGrid,
         boardGrid,
@@ -42,7 +43,7 @@ export const useEndTurn = () => {
       );
       // Calculate score for vertical play
     } else {
-      score = calculateVerticalPlayScore(
+      score = scoreVerticalPlay(
         tileGrid,
         playGrid,
         boardGrid,
