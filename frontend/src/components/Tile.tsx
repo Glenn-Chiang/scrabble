@@ -10,7 +10,7 @@ export const FixedTile = ({ letter }: { letter: string }) => {
 
   return (
     <div
-      className="rounded w-10 h-10 flex justify-center items-center shadow font-bold relative 
+      className="rounded w-10 h-10 flex justify-center items-center font-bold relative 
         bg-white"
     >
       {letter === "BLANK" ? "" : letter}

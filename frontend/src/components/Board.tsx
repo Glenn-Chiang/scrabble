@@ -1,11 +1,10 @@
-import { createBoard } from "../lib/game-constants/board";
+import { boardGrid } from "../lib/game-constants/board";
 import { Square } from "./Square";
 
 export const Board = () => {
-  const boardMatrix = createBoard();
   return (
     <ul className="w-full overflow-x-scroll sm:overflow-hidden sm:w-auto flex flex-col gap-1">
-      {boardMatrix.map((row, i) => (
+      {boardGrid.map((row, i) => (
         <Row key={i} values={row} rowIndex={i} />
       ))}
     </ul>
