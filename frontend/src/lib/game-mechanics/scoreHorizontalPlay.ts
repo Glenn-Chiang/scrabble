@@ -10,17 +10,43 @@ export function scoreHorizontalPlay(
 ) {
   const score =
     scoreHorizontalWord(tileGrid, playGrid, boardGrid, playedRow) +
-    scoreVerticalWords(tileGrid, playGrid, boardGrid, playedRow);
+    scoreVerticalWords(tileGrid, playGrid, playedRow);
   return score;
 }
 
 function scoreVerticalWords(
   tileGrid: string[][],
   playGrid: string[][],
-  boardGrid: BoardValue[][],
   playedRow: number
 ) {
   let score = 0;
+
+  // For each played tile, add points for adjacent tiles above it and below it in the same column
+  for (let col = 0; col < playGrid[0].length; col++) {
+    if (playGrid[playedRow][col]) {
+      // Add points for adjacent fixed tiles below played tile
+      for (let row = playedRow + 1; row < tileGrid.length; row++) {
+        const letter = tileGrid[row][col]
+        if (letter) {
+          score += tileBasePoints[letter]
+        } else {
+          // If there are no more adjacent tiles below, stop adding points
+          break;
+        }
+      }
+      // Add points for adjacent fixed tiles above played tile
+      for (let row = playedRow - 1; row >= 0; row--) {
+        const letter = tileGrid[row][col]
+        if (letter) {
+          score += tileBasePoints[letter]
+        } else {
+          // If there are no more adjacent tiles below, stop adding points
+          break;
+        }
+      }
+    }
+  }
+
   return score;
 }
 
