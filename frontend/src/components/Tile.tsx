@@ -10,7 +10,7 @@ export const FixedTile = ({ letter }: { letter: string }) => {
 
   return (
     <div
-      className="rounded w-10 h-10 flex justify-center items-center font-bold relative 
+      className="rounded min-w-10 h-10 flex justify-center items-center font-bold relative 
         bg-white"
     >
       {letter === "BLANK" ? "" : letter}
@@ -40,7 +40,7 @@ export const PlayedTile = ({ letter, row, col }: PlayedTileProps) => {
   return (
     <button
       onClick={handleClick}
-      className="rounded w-10 h-10 flex justify-center items-center shadow font-bold relative 
+      className="rounded min-w-10 h-10 flex justify-center items-center shadow font-bold relative 
         bg-white hover:shadow-lg"
     >
       {letter === "BLANK" ? "" : letter}

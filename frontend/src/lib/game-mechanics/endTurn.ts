@@ -18,6 +18,7 @@ export const useEndTurn = () => {
 
   return (): boolean => {
     if (!validateTilePlacement(playGrid, tileGrid)) {
+      console.log('Invalid play')
       return false;
     }
 
@@ -30,7 +31,6 @@ export const useEndTurn = () => {
 
     // TODO: Check that all tiles are connected. Use depth first search?
 
-    // TODO: Check that a single connected word is formed from played tiles
 
     let score = 0;
     // Calculate score for horizontal play

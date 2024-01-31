@@ -4,7 +4,9 @@ export function validateTilePlacement(playGrid: string[][], tileGrid: string[][]
   const playedColumn = getPlayedColumn(playGrid)
   const sameRow = playedRow != -1
   const sameColumn = playedColumn != -1
-  if (!sameRow && !sameColumn) return false
+  if (!sameRow && !sameColumn) {
+    return false
+  }
   
   // If play is horizontal, check that there are no empty cells between leftmost played tile and rightmost played tile  
   if (sameRow && !checkHorizontalAdjacency(playGrid, tileGrid, playedRow)) {
@@ -75,6 +77,7 @@ export function getPlayedRow(grid: string[][]) {
 
 // Find column in which tiles were played in a vertical play
 export function getPlayedColumn(grid: string[][]) {
+  console.log(grid)
   let playedColumn = -1;
   for (let col = 0; col < grid[0].length; col++) {
     for (let row = 0; row < grid.length; row++) {
@@ -84,6 +87,7 @@ export function getPlayedColumn(grid: string[][]) {
           return -1;
         }
         playedColumn = col;
+        break;
       }
     }
   }
