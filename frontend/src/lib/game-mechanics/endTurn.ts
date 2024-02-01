@@ -2,11 +2,7 @@ import { playGridSlice } from "../../redux-config/slices/playGrid";
 import { tileGridSlice } from "../../redux-config/slices/tileGrid";
 import { useAppDispatch, useAppSelector } from "../../redux-config/store";
 import { boardGrid } from "../game-constants/board";
-import {
-  getPlayedColumn,
-  getPlayedRow,
-  validatePlay,
-} from "./validatePlay";
+import { getPlayedColumn, getPlayedRow, validatePlay } from "./validatePlay";
 import { scoreHorizontalPlay } from "./scoreHorizontalPlay";
 import { scoreVerticalPlay } from "./scoreVerticalPlay";
 
@@ -18,7 +14,7 @@ export const useEndTurn = () => {
 
   return (): boolean => {
     if (!validatePlay(playGrid, tileGrid)) {
-      console.log('Invalid play')
+      console.log("Invalid play");
       return false;
     }
 
@@ -31,10 +27,10 @@ export const useEndTurn = () => {
 
     // TODO: For the first play, check that 1 of the tiles is played on the centre square
 
-    let score = 0;
+    let wordScores;
     // Calculate score for horizontal play
     if (playedRow != -1) {
-      score = scoreHorizontalPlay(
+      wordScores = scoreHorizontalPlay(
         tileGrid,
         playGrid,
         boardGrid,
@@ -42,14 +38,15 @@ export const useEndTurn = () => {
       );
       // Calculate score for vertical play
     } else {
-      score = scoreVerticalPlay(
+      wordScores = scoreVerticalPlay(
         tileGrid,
         playGrid,
         boardGrid,
         playedColumn
       );
     }
-    console.log('score:', score)
+
+    console.log(wordScores);
 
     // Confirm placement of tiles into tileGrid. They will now be fixed.
     dispatch(tileGridSlice.actions.placeTiles(playGrid));

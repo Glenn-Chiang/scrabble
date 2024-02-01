@@ -1,5 +1,6 @@
 import { BoardValue } from "../game-constants/board";
 import { tilePoints as tileBasePoints } from "../game-constants/tiles";
+import { validateWord } from "./validateWord";
 
 // Calculate the total score of a vertical play
 // A vertical play is defined as a play in which all played tiles are placed in a single column
@@ -26,22 +27,22 @@ function scoreHorizontalWords(
     if (playGrid[row][playedColumn]) {
       // Add points for adjacent fixed tiles to the left of played tile
       for (let col = playedColumn + 1; col < tileGrid[0].length; col++) {
-        const letter = tileGrid[row][col]
+        const letter = tileGrid[row][col];
         if (letter) {
-          score += tileBasePoints[letter]
+          score += tileBasePoints[letter];
         } else {
           // If there are no more adjacent tiles to the right, stop adding points for this row
-          break
+          break;
         }
       }
       // Add points for adjacent fixed tiles to the right of played tile
       for (let col = playedColumn - 1; col >= 0; col--) {
-        const letter = tileGrid[row][col]
+        const letter = tileGrid[row][col];
         if (letter) {
-          score += tileBasePoints[letter]
+          score += tileBasePoints[letter];
         } else {
           // If there are no more adjacent tiles to the left, stop adding points for this row
-          break
+          break;
         }
       }
     }
@@ -94,36 +95,84 @@ function scoreVerticalWord(
   // Row index of bottommost row where a tile was played
   const bottomPlayedRow = playedRowIndices[playedRowIndices.length - 1];
 
+  // Indices of rows in tileGrid where a fixed tile is present AND that tile is connected to the played tiles
+  // In other words, these are the rows that contain a fixed tile that is part of the vertical word formed in the play
+  const fixedRowIndices = [];
+
   // Add points for all adjacent fixed tiles below the bottom played tile
   for (let row = bottomPlayedRow; row < tileGrid.length; row++) {
     const letter = tileGrid[row][playedColumn];
     // If any tile has been fixed in this cell, add base points for this tile
     if (letter) {
       score += tileBasePoints[letter];
+      fixedRowIndices.push(row);
     } else {
       // If there are no more adjacent tiles below, stop adding points
       break;
     }
   }
+  
+  // Index of bottommost row containing a fixed tile that is connected to the played tiles
+  const bottomFixedRow = fixedRowIndices[fixedRowIndices.length - 1] || -1;
 
   // Add points for all fixed tiles between the topmost and bottommost played tiles
   for (let row = topPlayedRow; row <= bottomPlayedRow; row++) {
     const letter = tileGrid[row][playedColumn];
     if (letter) {
       score += tileBasePoints[letter];
+      fixedRowIndices.push(row);
     }
   }
 
-  // Add points for all adjacent tiles
+  // Add points for all adjacent fixed tiles above the top played tile
   for (let row = topPlayedRow - 1; row >= 0; row--) {
     const letter = tileGrid[row][playedColumn];
     if (letter) {
       score += tileBasePoints[letter];
+      fixedRowIndices.push(row);
     } else {
       // If there are no more adjacent tiles above, stop adding points
       break;
     }
   }
 
-  return score * wordMultiplier;
+  // Index of topmost row containing a fixed tile that is connected to the played tiles
+  const topFixedRow = fixedRowIndices[fixedRowIndices.length - 1] || -1;
+
+  // If this is the first play in the game, fixedRowIndices will be empty
+  // In that case, we simply set firstLetterRow and lastLetterRow to topPlayedRow and bottomPlayedRow respectively
+
+  // Index of row containing the topmost tile (i.e. the first letter) that forms the vertical word
+  const firstLetterRow =
+    topFixedRow == -1 ? topPlayedRow : Math.min(topFixedRow, topPlayedRow);
+  // Index of row containing the bottommost tile (i.e. the last letter) that forms the vertical word
+  const lastLetterRow =
+    bottomFixedRow == -1
+      ? bottomPlayedRow
+      : Math.min(bottomFixedRow, bottomPlayedRow);
+
+  const word = getVerticalWord(
+    playGrid,
+    tileGrid,
+    playedColumn,
+    firstLetterRow,
+    lastLetterRow
+  );
+
+  return { word, score: score * wordMultiplier };
+}
+
+function getVerticalWord(
+  playGrid: string[][],
+  tileGrid: string[][],
+  playedColumn: number,
+  firstLetterRow: number,
+  lastLetterRow: number
+) {
+  const letters = [];
+  for (let row = firstLetterRow; row <= lastLetterRow; row++) {
+    const letter = playGrid[row][playedColumn] || tileGrid[row][playedColumn];
+    letters.push(letter);
+  }
+  return letters.join("");
 }
