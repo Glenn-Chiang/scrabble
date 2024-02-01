@@ -132,18 +132,29 @@ function scoreHorizontalWord(
   }
 
   // Index of leftmost column in tileGrid where a tile is present AND that tile is connected to the played tiles
-  const leftFixedCol = fixedColIndices[0];
+  const leftFixedCol = fixedColIndices[0] || -1;
   // Index of rightmost column in tileGrid where a tile is present AND that tile is connected to the played tiles
-  const rightFixedCol = fixedColIndices[fixedColIndices.length - 1];
+  const rightFixedCol = fixedColIndices[fixedColIndices.length - 1] || -1;
 
+  // If this is the first play in the game, fixedColIndices will be empty. In that case, we simply set firstLetterCol and lastLetterCol to the leftPlayedCol and rightPlayedCol respectively
   // Index of column containing the leftmost tile (i.e. the first letter) that forms the horizontal word
-  const firstLetterCol = Math.min(leftFixedCol, leftPlayedCol);
+  const firstLetterCol =
+    leftFixedCol == -1 ? leftPlayedCol : Math.min(leftFixedCol, leftPlayedCol);
   // Index of column containing the rightmost tile (i.e. the last letter) that forms the horizontal word
-  const lastLetterCol = Math.min(rightFixedCol, rightPlayedCol);
+  const lastLetterCol =
+    rightFixedCol == -1
+      ? rightPlayedCol
+      : Math.max(rightFixedCol, rightPlayedCol);
 
-  const word = getHorizontalWord(playGrid, tileGrid, playedRow, firstLetterCol, lastLetterCol)
-
-  if (!validateWord(word)) return -1
+  const word = getHorizontalWord(
+    playGrid,
+    tileGrid,
+    playedRow,
+    firstLetterCol,
+    lastLetterCol
+  );
+  console.log("word:", word);
+  if (!validateWord(word)) return -1;
 
   return score * wordMultiplier;
 }
@@ -155,10 +166,10 @@ function getHorizontalWord(
   firstLetterCol: number,
   lastLetterCol: number
 ) {
-  const letters = []
+  const letters = [];
   for (let col = firstLetterCol; col <= lastLetterCol; col++) {
-    const letter  = playGrid[playedRow][col] || tileGrid[playedRow][col]
-    letters.push(letter)
+    const letter = playGrid[playedRow][col] || tileGrid[playedRow][col];
+    letters.push(letter);
   }
-  return letters.join('')
+  return letters.join("");
 }
