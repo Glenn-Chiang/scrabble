@@ -34,17 +34,20 @@ function scoreHorizontalWords(
 
   for (let row = 0; row < playGrid.length; row++) {
     if (playGrid[row][playedColumn]) {
-      wordScores.push(scoreHorizontalWord(row));
+      const wordScore = scoreHorizontalWord(row);
+      if (wordScore) {
+        wordScores.push(wordScore);
+      }
     }
   }
 
   function scoreHorizontalWord(row: number) {
     let score = 0;
-    const letters = [playGrid[row][playedColumn]];
+    const letters = [];
 
     // Add points for fixed tiles that are adjacent to the right of played tile
-    for (let col = playedColumn + 1; col < tileGrid[0].length; col++) {
-      const letter = tileGrid[row][col];
+    for (let col = playedColumn; col < tileGrid[0].length; col++) {
+      const letter = playGrid[row][col] || tileGrid[row][col];
       if (letter) {
         score += tileBasePoints[letter];
         letters.push(letter);
@@ -64,6 +67,7 @@ function scoreHorizontalWords(
         break;
       }
     }
+    if (letters.length === 1) return null
     const word = letters.join("");
     return { word, score };
   }

@@ -26,23 +26,24 @@ function scoreVerticalWords(
   playGrid: string[][],
   playedRow: number
 ): {word: string, score: number}[] {
-  const wordScores = [];
+  const wordScores: {word: string, score: number}[] = [];
   // For each played tile, add points for adjacent tiles above it and below it in the same column
   for (let col = 0; col < playGrid[0].length; col++) {
     if (playGrid[playedRow][col]) {
-      // Get word with score
-      const { word, score } = scoreVerticalWord(col);
-      wordScores.push({ word, score });
+      const wordScore = scoreVerticalWord(col)
+      if (wordScore) {
+        wordScores.push(wordScore);
+      }
     }
   }
 
   function scoreVerticalWord(col: number) {
     let score = 0;
-    const letters = [playGrid[playedRow][col]];
+    const letters = [];
 
     // Add points for adjacent fixed tiles below played tile
-    for (let row = playedRow + 1; row < tileGrid.length; row++) {
-      const letter = tileGrid[row][col];
+    for (let row = playedRow; row < tileGrid.length; row++) {
+      const letter = playGrid[row][col] || tileGrid[row][col];
       if (letter) {
         score += tileBasePoints[letter];
         letters.push(letter);
@@ -63,7 +64,7 @@ function scoreVerticalWords(
         break;
       }
     }
-
+    if (letters.length === 1) return null
     const word = letters.join("");
     return { word, score };
   }
