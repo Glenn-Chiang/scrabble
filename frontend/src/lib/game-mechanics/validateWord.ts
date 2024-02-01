@@ -1,3 +1,3 @@
-export function validateWord(word: string) {
-  return true
+export function validateWord(word: string): boolean {
+  return true;
 }

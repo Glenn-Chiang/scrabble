@@ -2,9 +2,9 @@ import { playGridSlice } from "../../redux-config/slices/playGrid";
 import { tileGridSlice } from "../../redux-config/slices/tileGrid";
 import { useAppDispatch, useAppSelector } from "../../redux-config/store";
 import { boardGrid } from "../game-constants/board";
-import { getPlayedColumn, getPlayedRow, validatePlay } from "./validatePlay";
 import { scoreHorizontalPlay } from "./scoreHorizontalPlay";
 import { scoreVerticalPlay } from "./scoreVerticalPlay";
+import { getPlayedColumn, getPlayedRow, validatePlay } from "./validatePlay";
 
 export const useEndTurn = () => {
   const tileGrid = useAppSelector((state) => state.tileGrid);
@@ -27,7 +27,7 @@ export const useEndTurn = () => {
 
     // TODO: For the first play, check that 1 of the tiles is played on the centre square
 
-    let wordScores;
+    let wordScores: {word: string, score: number}[];
     // Calculate score for horizontal play
     if (playedRow != -1) {
       wordScores = scoreHorizontalPlay(
@@ -47,8 +47,14 @@ export const useEndTurn = () => {
     }
 
     console.log(wordScores);
+    console.log('Invalid words:')
+    for (const wordScore of wordScores) {
+      if (wordScore.score === -1) {
+        console.log(wordScore.word)
+      }
+    }
 
-    // Confirm placement of tiles into tileGrid. They will now be fixed.
+    // Confirm placement of tiles onto tileGrid. They will now be fixed.
     dispatch(tileGridSlice.actions.placeTiles(playGrid));
     // Clear the playGrid to prepare for next turn
     dispatch(playGridSlice.actions.clear());

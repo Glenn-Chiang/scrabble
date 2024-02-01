@@ -1,5 +1,6 @@
 import { BoardValue } from "../game-constants/board";
 import { tilePoints as tileBasePoints } from "../game-constants/tiles";
+import { validateWord } from "./validateWord";
 
 // Calculate the total score of a vertical play
 // A vertical play is defined as a play in which all played tiles are placed in a single column
@@ -67,8 +68,14 @@ function scoreHorizontalWords(
         break;
       }
     }
-    if (letters.length === 1) return null
+    if (letters.length === 1) return null;
     const word = letters.join("");
+
+    // Invalid words are assigned a score of -1
+    if (!validateWord(word)) {
+      score = -1;
+    }
+
     return { word, score };
   }
 
