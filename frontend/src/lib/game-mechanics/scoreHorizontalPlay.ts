@@ -1,7 +1,8 @@
 import { BoardValue } from "../game-constants/board";
 import { tilePoints as tileBasePoints } from "../game-constants/tiles";
+import { validateWord } from "./validateWord";
 
-// Calculate score for a horizontal play
+// Calculate score for a horizontal play while validating the words formed
 export function scoreHorizontalPlay(
   tileGrid: string[][],
   playGrid: string[][],
@@ -26,9 +27,9 @@ function scoreVerticalWords(
     if (playGrid[playedRow][col]) {
       // Add points for adjacent fixed tiles below played tile
       for (let row = playedRow + 1; row < tileGrid.length; row++) {
-        const letter = tileGrid[row][col]
+        const letter = tileGrid[row][col];
         if (letter) {
-          score += tileBasePoints[letter]
+          score += tileBasePoints[letter];
         } else {
           // If there are no more adjacent tiles below, stop adding points
           break;
@@ -36,9 +37,9 @@ function scoreVerticalWords(
       }
       // Add points for adjacent fixed tiles above played tile
       for (let row = playedRow - 1; row >= 0; row--) {
-        const letter = tileGrid[row][col]
+        const letter = tileGrid[row][col];
         if (letter) {
-          score += tileBasePoints[letter]
+          score += tileBasePoints[letter];
         } else {
           // If there are no more adjacent tiles below, stop adding points
           break;
@@ -61,8 +62,8 @@ function scoreHorizontalWord(
   let score = 0;
   let wordMultiplier = 1;
 
-  // Column indices of played tiles
-  const playedColumnIndices = [];
+  // Indices of columns in playGrid where a tile is present
+  const playedColIndices = [];
   // Add points for played tiles only, while recording their column indices
   for (let col = 0; col < playGrid[0].length; col++) {
     const playedLetter = playGrid[playedRow][col];
@@ -84,21 +85,25 @@ function scoreHorizontalWord(
           wordMultiplier *= 3;
       }
       score += tilePoints;
-      playedColumnIndices.push(col);
+      playedColIndices.push(col);
     }
   }
-  // Column index of leftmost column where a tile was played
-  const leftmostPlayedCol = playedColumnIndices[0];
-  // Column index of rightmost column where a tile was played
-  const rightmostPlayedCol =
-    playedColumnIndices[playedColumnIndices.length - 1];
+  // Index of leftmost column in playGrid where a tile is present
+  const leftPlayedCol = playedColIndices[0];
+  // Index of rightmost column in playGrid where a tile is present
+  const rightPlayedCol = playedColIndices[playedColIndices.length - 1];
+
+  // Indices of columns in tileGrid where a fixed tile is present AND the fixed tile is connected to the played tiles
+  // In other words, these are the columns in which there is a fixed tile that is part of the horizontal word formed in the horizontal play
+  const fixedColIndices = [];
 
   // Add points for all adjacent fixed tiles to the right of the rightmost played tile
-  for (let col = rightmostPlayedCol + 1; col < tileGrid[0].length; col++) {
+  for (let col = rightPlayedCol + 1; col < tileGrid[0].length; col++) {
     const letter = tileGrid[playedRow][col];
     // If any tile has been placed in this cell, add base points for that tile
     if (letter) {
       score += tileBasePoints[letter];
+      fixedColIndices.push(col);
     } else {
       // If there are no more adjacent tiles to the left, stop adding points
       break;
@@ -106,23 +111,54 @@ function scoreHorizontalWord(
   }
 
   // Add points for all fixed tiles between the leftmost and rightmost played tiles, inclusive
-  for (let col = leftmostPlayedCol; col <= rightmostPlayedCol; col++) {
+  for (let col = leftPlayedCol; col <= rightPlayedCol; col++) {
     const letter = tileGrid[playedRow][col];
     if (letter) {
       score += tileBasePoints[letter];
+      fixedColIndices.push(col);
     }
   }
 
   // Add points for all adjacent tiles to the left of the leftmost played tile
-  for (let col = leftmostPlayedCol - 1; col >= 0; col--) {
+  for (let col = leftPlayedCol - 1; col >= 0; col--) {
     const letter = tileGrid[playedRow][col];
     if (letter) {
       score += tileBasePoints[letter];
+      fixedColIndices.push(col);
     } else {
       // If there are no more adjacent tiles to the left, stop adding points
       break;
     }
   }
 
+  // Index of leftmost column in tileGrid where a tile is present AND that tile is connected to the played tiles
+  const leftFixedCol = fixedColIndices[0];
+  // Index of rightmost column in tileGrid where a tile is present AND that tile is connected to the played tiles
+  const rightFixedCol = fixedColIndices[fixedColIndices.length - 1];
+
+  // Index of column containing the leftmost tile (i.e. the first letter) that forms the horizontal word
+  const firstLetterCol = Math.min(leftFixedCol, leftPlayedCol);
+  // Index of column containing the rightmost tile (i.e. the last letter) that forms the horizontal word
+  const lastLetterCol = Math.min(rightFixedCol, rightPlayedCol);
+
+  const word = getHorizontalWord(playGrid, tileGrid, playedRow, firstLetterCol, lastLetterCol)
+
+  if (!validateWord(word)) return -1
+
   return score * wordMultiplier;
+}
+
+function getHorizontalWord(
+  playGrid: string[][],
+  tileGrid: string[][],
+  playedRow: number,
+  firstLetterCol: number,
+  lastLetterCol: number
+) {
+  const letters = []
+  for (let col = firstLetterCol; col <= lastLetterCol; col++) {
+    const letter  = playGrid[playedRow][col] || tileGrid[playedRow][col]
+    letters.push(letter)
+  }
+  return letters.join('')
 }

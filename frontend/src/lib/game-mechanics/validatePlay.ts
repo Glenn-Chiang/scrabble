@@ -1,4 +1,4 @@
-export function validateTilePlacement(
+export function validatePlay(
   playGrid: string[][],
   tileGrid: string[][]
 ) {
@@ -93,8 +93,6 @@ function checkUnity(
   }
 
   dfs(firstPlayedCell[0], firstPlayedCell[1]);
-
-  console.log("visited:", visited);
 
   // Check if first tile in tileGrid (we could also have chosen any other tile in tileGrid) has been visited
   for (let row = 0; row < tileGrid.length; row++) {

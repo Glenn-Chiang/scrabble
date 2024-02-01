@@ -5,8 +5,8 @@ import { boardGrid } from "../game-constants/board";
 import {
   getPlayedColumn,
   getPlayedRow,
-  validateTilePlacement,
-} from "./evaluatePlay";
+  validatePlay,
+} from "./validatePlay";
 import { scoreHorizontalPlay } from "./scoreHorizontalPlay";
 import { scoreVerticalPlay } from "./scoreVerticalPlay";
 
@@ -17,7 +17,7 @@ export const useEndTurn = () => {
   const dispatch = useAppDispatch();
 
   return (): boolean => {
-    if (!validateTilePlacement(playGrid, tileGrid)) {
+    if (!validatePlay(playGrid, tileGrid)) {
       console.log('Invalid play')
       return false;
     }
@@ -29,8 +29,7 @@ export const useEndTurn = () => {
 
     // TODO: Check that all words formed are valid
 
-    // TODO: Check that all tiles are connected. Use depth first search?
-
+    // TODO: For the first play, check that 1 of the tiles is played on the centre square
 
     let score = 0;
     // Calculate score for horizontal play
