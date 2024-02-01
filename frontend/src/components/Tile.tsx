@@ -41,7 +41,7 @@ export const PlayedTile = ({ letter, row, col }: PlayedTileProps) => {
     <button
       onClick={handleClick}
       className="rounded min-w-10 h-10 flex justify-center items-center shadow font-bold relative 
-        bg-white hover:shadow-lg"
+        bg-white hover:shadow-lg text-sky-400"
     >
       {letter === "BLANK" ? "" : letter}
       <span className="absolute bottom-0 right-1 text-xs">{points}</span>
