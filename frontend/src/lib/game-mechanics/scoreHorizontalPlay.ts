@@ -7,17 +7,17 @@ export function scoreHorizontalPlay(
   playGrid: string[][],
   boardGrid: BoardValue[][],
   playedRow: number
-) {
+): { word: string; score: number }[] {
   // Array of each word formed with its corresponding score
   const wordScores = [];
-  const scoredHorizontalWord = scoreHorizontalWord(
+  const horizontalWordScore = scoreHorizontalWord(
     tileGrid,
     playGrid,
     boardGrid,
     playedRow
   );
-  const scoredVerticalWords =  scoreVerticalWords(tileGrid, playGrid, playedRow);
-  wordScores.push(scoredHorizontalWord, ...scoredVerticalWords)
+  const verticalWordScores = scoreVerticalWords(tileGrid, playGrid, playedRow);
+  wordScores.push(horizontalWordScore, ...verticalWordScores);
   return wordScores;
 }
 
@@ -25,54 +25,50 @@ function scoreVerticalWords(
   tileGrid: string[][],
   playGrid: string[][],
   playedRow: number
-) {
+): {word: string, score: number}[] {
   const wordScores = [];
   // For each played tile, add points for adjacent tiles above it and below it in the same column
   for (let col = 0; col < playGrid[0].length; col++) {
     if (playGrid[playedRow][col]) {
       // Get word with score
-      const { word, score } = scoreVerticalWord(playGrid, tileGrid, playedRow, col);
-      wordScores.push({word, score });
+      const { word, score } = scoreVerticalWord(col);
+      wordScores.push({ word, score });
     }
   }
+
+  function scoreVerticalWord(col: number) {
+    let score = 0;
+    const letters = [playGrid[playedRow][col]];
+
+    // Add points for adjacent fixed tiles below played tile
+    for (let row = playedRow + 1; row < tileGrid.length; row++) {
+      const letter = tileGrid[row][col];
+      if (letter) {
+        score += tileBasePoints[letter];
+        letters.push(letter);
+      } else {
+        // If there are no more adjacent tiles below, stop adding points
+        break;
+      }
+    }
+
+    // Add points for adjacent fixed tiles above played tile
+    for (let row = playedRow - 1; row >= 0; row--) {
+      const letter = tileGrid[row][col];
+      if (letter) {
+        score += tileBasePoints[letter];
+        letters.unshift(letter);
+      } else {
+        // If there are no more adjacent tiles above, stop adding points
+        break;
+      }
+    }
+
+    const word = letters.join("");
+    return { word, score };
+  }
+
   return wordScores;
-}
-
-function scoreVerticalWord(
-  playGrid: string[][],
-  tileGrid: string[][],
-  startRow: number,
-  col: number
-) {
-  let score = 0;
-  const letters = [playGrid[startRow][col]];
-
-  // Add points for adjacent fixed tiles below played tile
-  for (let row = startRow + 1; row < tileGrid.length; row++) {
-    const letter = tileGrid[row][col];
-    if (letter) {
-      score += tileBasePoints[letter];
-      letters.push(letter);
-    } else {
-      // If there are no more adjacent tiles below, stop adding points
-      break;
-    }
-  }
-
-  // Add points for adjacent fixed tiles above played tile
-  for (let row = startRow - 1; row >= 0; row--) {
-    const letter = tileGrid[row][col];
-    if (letter) {
-      score += tileBasePoints[letter];
-      letters.unshift(letter);
-    } else {
-      // If there are no more adjacent tiles above, stop adding points
-      break;
-    }
-  }
-
-  const word = letters.join("");
-  return { word, score };
 }
 
 // Calculate the score only for the horizontal word formed during the current horizontal play
@@ -82,7 +78,7 @@ function scoreHorizontalWord(
   playGrid: string[][],
   boardGrid: BoardValue[][],
   playedRow: number
-) {
+): {word: string, score: number} {
   let score = 0;
   let wordMultiplier = 1;
 
