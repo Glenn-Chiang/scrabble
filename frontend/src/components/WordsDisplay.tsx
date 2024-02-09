@@ -7,7 +7,7 @@ export function WordsDisplay() {
   return (
     <section className="w-full p-4 rounded shadow  bg-white flex flex-col">
       <h2 className="text-slate-500">Words played:</h2>
-      <ul className="flex flex-col py-2 uppercase border-b-2 h-[10vh] overflow-y-scroll ">
+      <ul className="flex flex-col py-2 uppercase border-b-2 h-[10vh] overflow-y-scroll font-semibold">
         {wordScores.map((wordScore, i) => (
           <li key={i} className="justify-between flex">
             <span>{wordScore.word}</span>
