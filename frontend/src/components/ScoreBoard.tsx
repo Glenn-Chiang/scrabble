@@ -1,20 +1,28 @@
+import { useCurrentPlayer } from "../lib/game-mechanics/useCurrentPlayer";
 import { useAppSelector } from "../redux-config/store";
 
 export function ScoreBoard() {
-  const player1score = useAppSelector(state => state.playerScores[0]);
-  const player2score = useAppSelector(state => state.playerScores[1]);
-
   return (
-    <section className="w-full flex items-center bg-white p-4 shadow rounded">
-      <div className="w-1/2 flex justify-center flex-col items-center border-r-2">
-        P1
-        <span className="text-2xl">{player1score}</span>
-      </div>
-      <div className="w-1/2 flex justify-center flex-col items-center">
-        P2
-        <span className="text-2xl">{player2score}</span>
-      </div>
+    <section className="w-full flex items-start bg-white p-2 sm:p-4 shadow rounded">
+      <ScoreCard playerId={0} />
+      <ScoreCard playerId={1} />
     </section>
   );
 }
 
+function ScoreCard({ playerId }: { playerId: number }) {
+  const score = useAppSelector((state) => state.playerScores[playerId]);
+  const currentPlayerId = useCurrentPlayer();
+  const isCurrentPlayer = currentPlayerId === playerId;
+
+  return (
+    <div
+      className={`w-1/2 h-full flex justify-center p-2 flex-col items-center font-semibold ${
+        isCurrentPlayer && "text-sky-500 rounded bg-sky-100"
+      }`}
+    >
+      P{playerId + 1}
+      <span className="text-2xl">{score}</span>
+    </div>
+  );
+}

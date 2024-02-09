@@ -14,6 +14,9 @@ export const wordScoresSlice = createSlice(
     reducers: {
       set: (wordScores, action: PayloadAction<WordScore[]>) => {
         wordScores.splice(0, wordScores.length, ...action.payload)
+      },
+      clear: (wordScores) => {
+        wordScores.length = 0
       }
     }
   }

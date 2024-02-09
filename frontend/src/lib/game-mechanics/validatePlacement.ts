@@ -1,4 +1,4 @@
-export function validatePlay(
+export function validatePlacement(
   playGrid: string[][],
   tileGrid: string[][]
 ) {
