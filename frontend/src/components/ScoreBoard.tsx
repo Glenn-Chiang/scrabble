@@ -1,6 +1,8 @@
+import { useAppSelector } from "../redux-config/store";
+
 export function ScoreBoard() {
-  const player1score = 0;
-  const player2score = 0;
+  const player1score = useAppSelector(state => state.playerScores[0]);
+  const player2score = useAppSelector(state => state.playerScores[1]);
 
   return (
     <section className="w-full flex items-center bg-white p-4 shadow rounded">

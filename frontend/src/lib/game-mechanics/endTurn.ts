@@ -1,8 +1,10 @@
 import { playGridSlice } from "../../redux-config/slices/playGrid";
+import { playerScoresSlice } from "../../redux-config/slices/playerScores";
 import { tileGridSlice } from "../../redux-config/slices/tileGrid";
 import { wordScoresSlice } from "../../redux-config/slices/wordScores";
 import { useAppDispatch, useAppSelector } from "../../redux-config/store";
 import { boardGrid } from "../game-constants/board";
+import { calculateScore } from "./calculateScore";
 import { scoreHorizontalPlay } from "./scoreHorizontalPlay";
 import { scoreVerticalPlay } from "./scoreVerticalPlay";
 import { getPlayedColumn, getPlayedRow, validatePlay } from "./validatePlay";
@@ -10,6 +12,7 @@ import { getPlayedColumn, getPlayedRow, validatePlay } from "./validatePlay";
 export const useEndTurn = () => {
   const tileGrid = useAppSelector((state) => state.tileGrid);
   const playGrid = useAppSelector((state) => state.playGrid);
+  const currentPlayerId = 0 // TODO: Implement switching turns between players
 
   const dispatch = useAppDispatch();
 
@@ -44,8 +47,10 @@ export const useEndTurn = () => {
 
     // Confirm placement of tiles onto tileGrid. They will now be fixed.
     dispatch(tileGridSlice.actions.placeTiles(playGrid));
-    // Update word scores for current play
+    // Update scores for words played during current turn
     dispatch(wordScoresSlice.actions.set(wordScores))
+    // Update player scores
+    dispatch(playerScoresSlice.actions.add({playerId: currentPlayerId, score: calculateScore(wordScores)}))
     // Clear the playGrid to prepare for next turn
     dispatch(playGridSlice.actions.clear());
     return true;

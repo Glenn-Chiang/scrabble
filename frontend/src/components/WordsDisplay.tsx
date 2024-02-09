@@ -1,8 +1,9 @@
+import { calculateScore } from "../lib/game-mechanics/calculateScore";
 import { useAppSelector } from "../redux-config/store";
 
 export function WordsDisplay() {
   const wordScores = useAppSelector(state => state.wordScores)
-  const totalScore = wordScores.reduce((prev, curr) => prev + curr.score, 0);
+  const totalScore = calculateScore(wordScores);
 
   return (
     <section className="w-full p-4 rounded shadow  bg-white flex flex-col">
