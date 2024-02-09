@@ -14,8 +14,10 @@ export default function Play() {
   
   return (
     <main className="flex flex-col gap-4 justify-center items-center w-full">
-      <ScoreBoard/>
-      <WordsDisplay/>
+      <div className="w-full flex flex-col sm:flex-row gap-4">
+        <ScoreBoard/>
+        <WordsDisplay/>
+      </div>
       <Board/>
       <div className="flex gap-2">
         <button onClick={() => drawTiles(1, 7)} className="bg-sky-500 text-white">
