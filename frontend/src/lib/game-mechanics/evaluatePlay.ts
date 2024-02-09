@@ -1,3 +1,4 @@
+import { gameStateSlice } from "../../redux-config/slices/gameState";
 import { playerScoresSlice } from "../../redux-config/slices/playerScores";
 import { tileGridSlice } from "../../redux-config/slices/tileGrid";
 import { wordScoresSlice } from "../../redux-config/slices/wordScores";
@@ -23,6 +24,7 @@ export function useEvaluatePlay() {
   return (): boolean => {
     if (!validatePlacement(playGrid, tileGrid)) {
       console.log("Invalid play");
+      dispatch(gameStateSlice.actions.setTurnState('invalid-placement'))
       return false;
     }
 
@@ -47,6 +49,8 @@ export function useEvaluatePlay() {
       if (wordScore.score === -1) {
         console.log(wordScore.word);
         // TODO: Handle invalid word
+        dispatch(gameStateSlice.actions.setTurnState('invalid-words'))
+        return false
       }
     }
 
@@ -62,6 +66,7 @@ export function useEvaluatePlay() {
       })
     );
 
+    dispatch(gameStateSlice.actions.setTurnState('valid'))
     return true;
   };
 }

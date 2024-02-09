@@ -13,5 +13,7 @@ export function useEndTurn() {
     dispatch(wordScoresSlice.actions.clear());
     // Advance to next turn
     dispatch(gameStateSlice.actions.nextTurn());
+    // Reset turnState to pending
+    dispatch(gameStateSlice.actions.setTurnState('pending'))
   };
 }

@@ -1,4 +1,5 @@
 import { Board } from "../components/Board";
+import { InvalidDisplay } from "../components/InvalidDisplay";
 import { ScoreBoard } from "../components/ScoreBoard";
 import { TileRack } from "../components/TileRack";
 import { WordsDisplay } from "../components/WordsDisplay";
@@ -18,7 +19,7 @@ export default function Play() {
   const evaluatePlay = useEvaluatePlay();
   const endTurn = useEndTurn();
 
-  const turnState = useAppSelector(state => state.gameState.turnState)
+  const turnState = useAppSelector((state) => state.gameState.turnState);
 
   return (
     <main className="flex flex-col gap-4 justify-center items-center w-full">
@@ -26,7 +27,9 @@ export default function Play() {
         <ScoreBoard />
         <WordsDisplay />
       </div>
-      {}
+      {(turnState === "invalid-placement" || turnState === "invalid-words") && (
+        <InvalidDisplay />
+      )}
       <Board />
       <div className="flex gap-2">
         <button
@@ -35,10 +38,16 @@ export default function Play() {
         >
           Draw tiles
         </button>
-        <button onClick={() => evaluatePlay()} className="bg-teal-500 text-white p-2">
+        <button
+          onClick={() => evaluatePlay()}
+          className="bg-teal-500 text-white p-2"
+        >
           Check
         </button>
-        <button onClick={() => endTurn()} className="bg-rose-500 text-white p-2">
+        <button
+          onClick={() => endTurn()}
+          className="bg-rose-500 text-white p-2"
+        >
           End turn
         </button>
       </div>
