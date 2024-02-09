@@ -13,7 +13,7 @@ export const FixedTile = ({ letter }: { letter: string }) => {
       className="rounded min-w-10 h-10 flex justify-center items-center font-bold relative 
         bg-white"
     >
-      {letter === "BLANK" ? "" : letter}
+      {letter === "*" ? "" : letter}
       <span className="absolute bottom-0 right-1 text-xs">{points}</span>
     </div>
   );
@@ -43,7 +43,7 @@ export const PlayedTile = ({ letter, row, col }: PlayedTileProps) => {
       className="rounded min-w-10 h-10 flex justify-center items-center shadow font-bold relative 
         bg-white hover:shadow-lg text-sky-400"
     >
-      {letter === "BLANK" ? "" : letter}
+      {letter === "*" ? "" : letter}
       <span className="absolute bottom-0 right-1 text-xs">{points}</span>
     </button>
   );
@@ -78,7 +78,7 @@ export const UnplayedTile = ({
           : "bg-white"
       }`}
     >
-      {letter === "BLANK" ? "" : letter}
+      {letter === "*" ? "" : letter}
       <span className="absolute bottom-0 right-1 text-xs">{points}</span>
     </button>
   );

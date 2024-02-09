@@ -1,6 +1,6 @@
 import { UnplayedTile } from "./Tile";
 
-export const PlayerRack = ({ tiles }: { tiles: string[] }) => {
+export const TileRack = ({ tiles }: { tiles: string[] }) => {
   return (
     <ul className="flex gap-2 items-center">
       {tiles.map((tile, i) => (
