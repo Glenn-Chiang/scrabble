@@ -4,6 +4,7 @@ import { playGridSlice } from "../redux-config/slices/playGrid";
 import { useAppDispatch, useAppSelector } from "../redux-config/store";
 import { FixedTile, PlayedTile } from "./Tile";
 import { playerTilesSlice } from "../redux-config/slices/playerTiles";
+import { useCurrentPlayer } from "../lib/game-mechanics/useCurrentPlayer";
 
 interface SquareProps {
   value: string;
@@ -32,10 +33,11 @@ export const Square = ({ value, row, col }: SquareProps) => {
 
 export const EmptySquare = ({ value, row, col }: SquareProps) => {
   const selectedTileIndex = useAppSelector(
-    (state) => state.play.selectedTileIndex
+    (state) => state.selectedTile.selectedTileIndex
   );
   const playerTiles = useAppSelector((state) => state.playerTiles);
-  const selectedLetter = playerTiles[selectedTileIndex];
+  const currentPlayerId = useCurrentPlayer()
+  const selectedLetter = playerTiles[currentPlayerId][selectedTileIndex];
 
   const dispatch = useAppDispatch();
 
@@ -45,7 +47,7 @@ export const EmptySquare = ({ value, row, col }: SquareProps) => {
       playGridSlice.actions.placeTile({ row, col, letter: selectedLetter })
     );
     dispatch(
-      playerTilesSlice.actions.removeTile(selectedLetter)
+      playerTilesSlice.actions.removeTile({playerId: currentPlayerId, letter: selectedLetter})
     )
   };
 

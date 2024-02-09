@@ -3,20 +3,22 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { playerTilesSlice } from "./slices/playerTiles";
 import { tileBagSlice } from "./slices/tileBag";
 import { tileGridSlice } from "./slices/tileGrid";
-import { playSlice } from "./slices/play";
+import { selectedTileSlice } from "./slices/selectedTile";
 import { playGridSlice } from "./slices/playGrid";
 import { wordScoresSlice } from "./slices/wordScores";
 import { playerScoresSlice } from "./slices/playerScores";
+import { gameStateSlice } from "./slices/gameState";
 
 export const store = configureStore({
   reducer: {
     tileBag: tileBagSlice.reducer,
     playerTiles: playerTilesSlice.reducer,
     tileGrid: tileGridSlice.reducer,
-    play: playSlice.reducer,
+    selectedTile: selectedTileSlice.reducer,
     playGrid: playGridSlice.reducer,
     wordScores: wordScoresSlice.reducer,
-    playerScores: playerScoresSlice.reducer
+    playerScores: playerScoresSlice.reducer,
+    gameState: gameStateSlice.reducer
   }
 })
 

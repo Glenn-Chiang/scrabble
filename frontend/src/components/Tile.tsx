@@ -1,8 +1,9 @@
 import { tilePoints } from "../lib/game-constants/tiles";
-import { playSlice } from "../redux-config/slices/play";
+import { selectedTileSlice } from "../redux-config/slices/selectedTile";
 import { playGridSlice } from "../redux-config/slices/playGrid";
 import { playerTilesSlice } from "../redux-config/slices/playerTiles";
 import { useAppDispatch, useAppSelector } from "../redux-config/store";
+import { useCurrentPlayer } from "../lib/game-mechanics/useCurrentPlayer";
 
 // Tile which has already been placed on the board on a previous turn. Cannot be removed.
 export const FixedTile = ({ letter }: { letter: string }) => {
@@ -29,12 +30,13 @@ interface PlayedTileProps {
 export const PlayedTile = ({ letter, row, col }: PlayedTileProps) => {
   const points = tilePoints[letter];
   const dispatch = useAppDispatch();
+  const currentPlayerId = useCurrentPlayer()
 
   const handleClick = () => {
     // Remove tile from board
     dispatch(playGridSlice.actions.removeTile({ row, col }));
     // Return tile to player's tile rack
-    dispatch(playerTilesSlice.actions.addTile(letter))
+    dispatch(playerTilesSlice.actions.addTile({playerId: currentPlayerId, letter}))
   };
 
   return (
@@ -59,11 +61,11 @@ export const UnplayedTile = ({
 }) => {
   const dispatch = useAppDispatch();
   const selectedTileIndex = useAppSelector(
-    (state) => state.play.selectedTileIndex
+    (state) => state.selectedTile.selectedTileIndex
   );
 
   const handleClick = () => {
-    dispatch(playSlice.actions.selectTile(index));
+    dispatch(selectedTileSlice.actions.selectTile(index));
   };
 
   const isSelected = selectedTileIndex === index;

@@ -4,8 +4,8 @@ const initialState = {
   selectedTileIndex: -1, // which playable tile is currently selected by player
 };
 
-export const playSlice = createSlice({
-  name: "play-slice",
+export const selectedTileSlice = createSlice({
+  name: "selected-tile",
   initialState,
   reducers: {
     selectTile: (state, action: PayloadAction<number>) => {
