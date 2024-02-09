@@ -1,7 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  turnNumber: 0
+type TurnState = 'pending' | 'invalid-placement' | 'invalid-words' | 'valid'
+
+type GameState = {
+  turnNumber: number,
+  turnState: TurnState
+}
+
+const initialState: GameState = {
+  turnNumber: 0,
+  turnState: 'pending'
 }
 
 export const gameStateSlice = createSlice({
@@ -10,6 +18,9 @@ export const gameStateSlice = createSlice({
   reducers: {
     nextTurn: (state) => {
       state.turnNumber++
+    },
+    setTurnState: (state, action: PayloadAction<TurnState>) => {
+      state.turnState = action.payload
     }
   }
 })
