@@ -12,7 +12,7 @@ export const wordScoresSlice = createSlice(
     name: 'word-scores',
     initialState,
     reducers: {
-      setWords: (wordScores, action: PayloadAction<WordScore[]>) => {
+      set: (wordScores, action: PayloadAction<WordScore[]>) => {
         wordScores.splice(0, wordScores.length, ...action.payload)
       }
     }

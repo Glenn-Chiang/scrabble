@@ -1,5 +1,6 @@
 import { playGridSlice } from "../../redux-config/slices/playGrid";
 import { tileGridSlice } from "../../redux-config/slices/tileGrid";
+import { wordScoresSlice } from "../../redux-config/slices/wordScores";
 import { useAppDispatch, useAppSelector } from "../../redux-config/store";
 import { boardGrid } from "../game-constants/board";
 import { scoreHorizontalPlay } from "./scoreHorizontalPlay";
@@ -43,6 +44,8 @@ export const useEndTurn = () => {
 
     // Confirm placement of tiles onto tileGrid. They will now be fixed.
     dispatch(tileGridSlice.actions.placeTiles(playGrid));
+    // Update word scores for current play
+    dispatch(wordScoresSlice.actions.set(wordScores))
     // Clear the playGrid to prepare for next turn
     dispatch(playGridSlice.actions.clear());
     return true;
