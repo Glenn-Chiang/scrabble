@@ -5,6 +5,7 @@ import { tileBagSlice } from "./slices/tileBag";
 import { tileGridSlice } from "./slices/tileGrid";
 import { playSlice } from "./slices/play";
 import { playGridSlice } from "./slices/playGrid";
+import { wordScoresSlice } from "./slices/wordScores";
 
 export const store = configureStore({
   reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
     playerTiles: playerTilesSlice.reducer,
     tileGrid: tileGridSlice.reducer,
     play: playSlice.reducer,
-    playGrid: playGridSlice.reducer
+    playGrid: playGridSlice.reducer,
+    wordScores: wordScoresSlice.reducer
   }
 })
 

@@ -27,30 +27,17 @@ export const useEndTurn = () => {
 
     // TODO: For the first play, check that 1 of the tiles is played on the centre square
 
-    let wordScores: {word: string, score: number}[];
-    // Calculate score for horizontal play
-    if (playedRow != -1) {
-      wordScores = scoreHorizontalPlay(
-        tileGrid,
-        playGrid,
-        boardGrid,
-        playedRow
-      );
-      // Calculate score for vertical play
-    } else {
-      wordScores = scoreVerticalPlay(
-        tileGrid,
-        playGrid,
-        boardGrid,
-        playedColumn
-      );
-    }
+    const wordScores =
+      playedRow != -1
+        ? scoreHorizontalPlay(tileGrid, playGrid, boardGrid, playedRow)
+        : scoreVerticalPlay(tileGrid, playGrid, boardGrid, playedColumn);
 
     console.log(wordScores);
-    console.log('Invalid words:')
+    console.log("Invalid words:");
+
     for (const wordScore of wordScores) {
       if (wordScore.score === -1) {
-        console.log(wordScore.word)
+        console.log(wordScore.word);
       }
     }
 
