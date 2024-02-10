@@ -18,15 +18,16 @@ export function useEvaluatePlay() {
   const tileGrid = useAppSelector((state) => state.tileGrid);
   const playGrid = useAppSelector((state) => state.playGrid);
   const currentPlayerId = useCurrentPlayer();
+  const turnNumber = useAppSelector(state => state.gameState.turnNumber)
 
   const dispatch = useAppDispatch();
 
   return (): boolean => {
-    if (!validatePlacement(playGrid, tileGrid)) {
+    if (!validatePlacement(playGrid, tileGrid, turnNumber)) {
       console.log("Invalid play");
       dispatch(gameStateSlice.actions.setTurnState('invalid-placement'))
       return false;
-    }
+    }        
 
     // Determine row in which tiles were played during current turn, assuming that a horizontal play was made
     const playedRow = getPlayedRow(playGrid);
@@ -34,8 +35,6 @@ export function useEvaluatePlay() {
     const playedColumn = getPlayedColumn(playGrid);
 
     // TODO: Check that all words formed are valid
-
-    // TODO: For the first play, check that 1 of the tiles is played on the centre square
 
     const wordScores =
       playedRow != -1

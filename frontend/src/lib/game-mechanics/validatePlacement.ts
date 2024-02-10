@@ -1,6 +1,7 @@
 export function validatePlacement(
   playGrid: string[][],
-  tileGrid: string[][]
+  tileGrid: string[][],
+  turnNumber: number
 ) {
   const playedRow = getPlayedRow(playGrid);
   const playedColumn = getPlayedColumn(playGrid);
@@ -9,6 +10,11 @@ export function validatePlacement(
   const sameColumn = playedColumn != -1;
   if (!sameRow && !sameColumn) {
     return false;
+  }
+
+  // If this is the first turn, check that one of the tiles is placed on the center cell. Otherwise the play is invalid
+  if (turnNumber === 0 && !checkCenter(playGrid)) {
+    return false
   }
 
   // If play is horizontal, check that there are no empty cells between leftmost played tile and rightmost played tile
@@ -52,6 +58,12 @@ export function validatePlacement(
   }
 
   return true;
+}
+
+// Check that the center cell is not empty
+function checkCenter(playGrid: string[][]) {
+  console.log(playGrid[(playGrid.length - 1) / 2][(playGrid[0].length - 1) / 2])
+  return playGrid[(playGrid.length - 1) / 2][(playGrid[0].length - 1) / 2] !== ""
 }
 
 // Check that at least 1 played tile is directly adjacent to a fixed tile
