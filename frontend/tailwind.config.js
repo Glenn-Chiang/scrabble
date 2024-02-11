@@ -8,6 +8,9 @@ export default {
     extend: {
       fontFamily: {
         'montserrat': ['Montserrat'],
+      },
+      animation: {
+        'pulse-fast': 'pulse 1s infinite'
       }
     },
   },

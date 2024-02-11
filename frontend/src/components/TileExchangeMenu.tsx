@@ -38,7 +38,7 @@ function ConfirmButton() {
   return (
     <ActionButton
       label="Confirm"
-      className="bg-cyan-500"
+      className="bg-cyan-500 text-white"
       onClick={handleClick}
     />
   );

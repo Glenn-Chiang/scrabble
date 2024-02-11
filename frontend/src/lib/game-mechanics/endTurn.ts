@@ -10,13 +10,18 @@ export function useEndTurn() {
   const dispatch = useAppDispatch();
   const drawTiles = useDrawTiles()
   const currentPlayerId = useCurrentPlayer()
-  const playerTilesCount = useAppSelector(state => state.playerTiles[currentPlayerId].length)
+  const playerTiles = useAppSelector(state => state.playerTiles[currentPlayerId])
 
   return () => {
     // Draw tiles until rack limit is reached, or no tiles remain in bag
-    drawTiles(currentPlayerId, rackLimit - playerTilesCount)
+    const drawnTiles = drawTiles(currentPlayerId, rackLimit - playerTiles.length)
+    const numberOfTilesDrawn = Object.keys(drawnTiles).length
 
-    // TODO: If player still has 0 tiles after attempting to draw tiles, that means we have run out of tiles and the game should end
+    // TODO: If player has 0 tiles left after the play and there are no tiles left in the tile bag to be drawn, end the game
+    if (playerTiles.length === 0 && numberOfTilesDrawn === 0) {
+      // end game
+    }
+
     // TODO: What other conditions do we need to check to determine whether the game should end?
 
     // Clear the playGrid
