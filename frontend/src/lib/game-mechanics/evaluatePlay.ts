@@ -43,6 +43,7 @@ export function useEvaluatePlay() {
 
     console.log(wordScores)
 
+    dispatch(invalidWordsSlice.actions.reset())
     let hasInvalidWord = false;
     for (const wordScore of wordScores) {
       if (wordScore.score < 0) {

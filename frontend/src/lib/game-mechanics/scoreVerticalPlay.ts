@@ -20,15 +20,20 @@ export function scoreVerticalPlay(
   const horizontalWordScores = scoreHorizontalWords(
     tileGrid,
     playGrid,
+    boardGrid,
     playedColumn
   );
-  wordScores.push(verticalWordScore, ...horizontalWordScores);
+  if (verticalWordScore) {
+    wordScores.push(verticalWordScore)
+  }
+  wordScores.push(...horizontalWordScores);
   return wordScores;
 }
 
 function scoreHorizontalWords(
   tileGrid: string[][],
   playGrid: string[][],
+  boardGrid: string[][],
   playedColumn: number
 ): { word: string; score: number }[] {
   const wordScores = [];
@@ -44,11 +49,31 @@ function scoreHorizontalWords(
 
   function scoreHorizontalWord(row: number) {
     let score = 0;
-    const letters = [];
+    let wordMultiplier = 1
+
+    const letters = [playGrid[row][playedColumn]];
+    const playedLetter = playGrid[row][playedColumn]
+    const boardValue = boardGrid[row][playedColumn]
+    let tilePoints = tileBasePoints[playedLetter]
+
+    switch (boardValue) {
+      case "2L":
+        tilePoints *= 2;
+        break;
+      case "3L":
+        tilePoints *= 3;
+        break;
+      case "2W":
+        wordMultiplier *= 2;
+        break;
+      case "3W":
+        wordMultiplier *= 3;
+    }
+    score += tilePoints;
 
     // Add points for fixed tiles that are adjacent to the right of played tile
-    for (let col = playedColumn; col < tileGrid[0].length; col++) {
-      const letter = playGrid[row][col] || tileGrid[row][col];
+    for (let col = playedColumn + 1; col < tileGrid[0].length; col++) {
+      const letter = tileGrid[row][col];
       if (letter) {
         score += tileBasePoints[letter];
         letters.push(letter);
@@ -69,14 +94,15 @@ function scoreHorizontalWords(
       }
     }
     if (letters.length === 1) return null;
+
     const word = letters.join("");
 
     // Invalid words are assigned a score of -1
     if (!validateWord(word)) {
-      score = -1;
+      return {word, score: -1}
     }
 
-    return { word, score };
+    return { word, score: score * wordMultiplier };
   }
 
   return wordScores;
@@ -89,7 +115,7 @@ function scoreVerticalWord(
   playGrid: string[][],
   boardGrid: BoardValue[][],
   playedColumn: number
-): { word: string; score: number } {
+): { word: string; score: number } | null {
   let score = 0;
   let wordMultiplier = 1;
 
@@ -121,6 +147,11 @@ function scoreVerticalWord(
     }
   }
 
+  // If the vertical play consits only of 1 tile, we don't count it as a word
+  if (playedRowIndices.length === 1) {
+    return null
+  }
+
   // Row index of topmost row where a tile was played
   const topPlayedRow = playedRowIndices[0];
   // Row index of bottommost row where a tile was played
@@ -131,7 +162,7 @@ function scoreVerticalWord(
   const fixedRowIndices = [];
 
   // Add points for all adjacent fixed tiles below the bottom played tile
-  for (let row = bottomPlayedRow; row < tileGrid.length; row++) {
+  for (let row = bottomPlayedRow + 1; row < tileGrid.length; row++) {
     const letter = tileGrid[row][playedColumn];
     // If any tile has been fixed in this cell, add base points for this tile
     if (letter) {
@@ -176,11 +207,12 @@ function scoreVerticalWord(
   // Index of row containing the topmost tile (i.e. the first letter) that forms the vertical word
   const firstLetterRow =
     topFixedRow == -1 ? topPlayedRow : Math.min(topFixedRow, topPlayedRow);
+
   // Index of row containing the bottommost tile (i.e. the last letter) that forms the vertical word
   const lastLetterRow =
     bottomFixedRow == -1
       ? bottomPlayedRow
-      : Math.min(bottomFixedRow, bottomPlayedRow);
+      : Math.max(bottomFixedRow, bottomPlayedRow);
 
   const word = getVerticalWord(
     playGrid,
@@ -192,9 +224,9 @@ function scoreVerticalWord(
 
   // Invalid words are assigned a score of -1
   if (!validateWord(word)) {
-    score = -1;
+    return { word, score: -1 };
   }
-  
+
   return { word, score: score * wordMultiplier };
 }
 
