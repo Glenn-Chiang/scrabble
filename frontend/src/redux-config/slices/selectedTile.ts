@@ -12,5 +12,6 @@ export const selectedTileSlice = createSlice({
       state.selectedTileIndex =
         state.selectedTileIndex != action.payload ? action.payload : -1; // if user selects an already selected tile, unselect it
     },
+    reset: () => initialState
   },
 });

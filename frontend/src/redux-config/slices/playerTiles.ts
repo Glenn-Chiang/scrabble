@@ -35,7 +35,8 @@ export const playerTilesSlice = createSlice({
           playerTiles[playerId].splice(indexToRemove, 1)
         }
       }
-    }
+    },
+    reset: () => initialState
   },
 });
 

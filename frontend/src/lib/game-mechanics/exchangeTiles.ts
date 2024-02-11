@@ -20,7 +20,7 @@ export function useExchangeTiles() {
     // draw the same number of tiles that were returned
     drawTiles(playerId, lettersToExchange.length)
 
-    // clear selection
-    dispatch(tileExchangeSlice.actions.clear())
+    // reset selection
+    dispatch(tileExchangeSlice.actions.reset())
   }
 }

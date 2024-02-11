@@ -24,12 +24,6 @@ export const playGridSlice = createSlice({
       const { row, col } = action.payload;
       grid[row][col] = "";
     },
-    clear: (grid) => {
-      for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[0].length; j++) {
-          grid[i][j] = ''
-        }
-      }
-    }
+    reset: () => initialState
   },
 });

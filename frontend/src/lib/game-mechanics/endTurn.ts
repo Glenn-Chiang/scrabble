@@ -31,9 +31,9 @@ export function useEndTurn() {
     }
 
     // Clear the playGrid
-    dispatch(playGridSlice.actions.clear());
+    dispatch(playGridSlice.actions.reset());
     // Clear word scores
-    dispatch(wordScoresSlice.actions.clear());
+    dispatch(wordScoresSlice.actions.reset());
     // Advance to next turn
     dispatch(gameStateSlice.actions.nextTurn());
     // Reset turnState to pending

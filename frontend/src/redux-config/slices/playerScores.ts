@@ -10,7 +10,8 @@ export const playerScoresSlice = createSlice(
       add: (scores, action: PayloadAction<{playerId: number, score: number}>) => {
         const {playerId, score} = action.payload
         scores[playerId] += score
-      }
+      },
+      reset: () => initialState
     }
   }
 )

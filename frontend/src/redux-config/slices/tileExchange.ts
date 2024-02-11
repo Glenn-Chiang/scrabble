@@ -17,9 +17,7 @@ export const tileExchangeSlice = createSlice(
           state.push(tileIndex)
         }
       },
-      clear: (state) => {
-        state.length = 0
-      }
+      reset: () => initialState
     }
   }
 )

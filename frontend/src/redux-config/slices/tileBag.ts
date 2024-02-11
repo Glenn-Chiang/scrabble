@@ -2,9 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { tileCounts } from "../../lib/game-constants/tiles";
 import { RootState } from "../store";
 
+const initialState = tileCounts
+
 export const tileBagSlice = createSlice({
   name: "tile-bag",
-  initialState: tileCounts, // Initialize with full bag of tiles
+  initialState,
   reducers: {
     removeTile: (state, action: PayloadAction<[string, number]>) => {
       const [letter, numberToRemove] = action.payload;
@@ -17,7 +19,8 @@ export const tileBagSlice = createSlice({
           state[letter]++
         }
       }
-    }
+    },
+    reset: () => initialState
   },
 });
 

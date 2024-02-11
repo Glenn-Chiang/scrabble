@@ -23,8 +23,10 @@ export const tileGridSlice = createSlice({
           }
         }
       }
-    }
+    },
+    reset: () => initialState
   },
+  
 });
 
 export const selectTileGrid = (state: RootState) => state.tileGrid;

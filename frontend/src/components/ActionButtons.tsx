@@ -1,13 +1,12 @@
 import { useDispatch } from "react-redux";
 import { ActionButton } from "../components/ActionButton";
-import { rackLimit } from "../lib/game-constants/tiles";
-import { useDrawTiles } from "../lib/game-mechanics/drawTiles";
 import { useEndGame } from "../lib/game-mechanics/endGame";
 import { useEndTurn } from "../lib/game-mechanics/endTurn";
 import { useEvaluatePlay } from "../lib/game-mechanics/evaluatePlay";
 import { useSkipTurn } from "../lib/game-mechanics/skipTurn";
+import { useStartGame } from "../lib/game-mechanics/startGame";
 import { gameStateSlice } from "../redux-config/slices/gameState";
-import { useAppDispatch, useAppSelector } from "../redux-config/store";
+import { useAppSelector } from "../redux-config/store";
 
 
 export function QuitButton() {
@@ -22,20 +21,12 @@ export function QuitButton() {
 }
 
 export function StartButton() {
-  const drawTiles = useDrawTiles();
-  const dispatch = useAppDispatch();
-
-  const handleClick = () => {
-    dispatch(gameStateSlice.actions.setGameProgress("in-game"));
-    // Draw first 7 tiles for both players
-    drawTiles(0, rackLimit);
-    drawTiles(1, rackLimit);
-  };
+ const startGame = useStartGame()
   return (
     <ActionButton
       label="Start"
       className="bg-sky-500 text-white shadow shadow-sky-500 w-full sm:w-1/2"
-      onClick={handleClick}
+      onClick={startGame}
     />
   );
 }
