@@ -1,4 +1,6 @@
 import { gameStateSlice } from "../../redux-config/slices/gameState";
+import { playGridSlice } from "../../redux-config/slices/playGrid";
+import { wordScoresSlice } from "../../redux-config/slices/wordScores";
 import { useAppDispatch } from "../../redux-config/store";
 
 export function useEndGame() {
@@ -6,7 +8,10 @@ export function useEndGame() {
 
   return () => {
     console.log("Game ended");
-    //TODO: Implement endGame logic
     dispatch(gameStateSlice.actions.setGameProgress("post-game"));
+    // Clear the playGrid
+    dispatch(playGridSlice.actions.clear());
+    // Clear word scores
+    dispatch(wordScoresSlice.actions.clear());
   };
 }

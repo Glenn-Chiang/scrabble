@@ -54,12 +54,14 @@ export const EmptySquare = ({ value, row, col }: SquareProps) => {
     );
   };
 
-  const turnState = useAppSelector((state) => state.gameState.turnState);
-
   const color = getSquareColor(value);
+  
+  const turnState = useAppSelector((state) => state.gameState.turnState);
+  const gameProgress = useAppSelector(state => state.gameState.gameProgress)
+
   return (
     <button
-      disabled={turnState === "valid" || turnState === 'exchanging'}
+      disabled={gameProgress !== 'in-game' || turnState === "valid" || turnState === 'exchanging'}
       onClick={handleClick}
       className={`${color} hover:shadow text-white rounded min-w-10 h-10 flex justify-center items-center`}
     >

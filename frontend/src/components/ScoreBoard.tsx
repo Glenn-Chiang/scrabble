@@ -13,7 +13,10 @@ export function ScoreBoard() {
 function ScoreCard({ playerId }: { playerId: number }) {
   const score = useAppSelector((state) => state.playerScores[playerId]);
   const currentPlayerId = useCurrentPlayer();
-  const isCurrentPlayer = currentPlayerId === playerId;
+  const gameProgress = useAppSelector((state) => state.gameState.gameProgress);
+
+  const isCurrentPlayer =
+    gameProgress === "in-game" && currentPlayerId === playerId;
 
   return (
     <div

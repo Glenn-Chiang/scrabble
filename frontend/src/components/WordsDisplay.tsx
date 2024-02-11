@@ -17,7 +17,7 @@ export function WordsDisplay() {
         ))}
       </ul>
       <div className="flex justify-between font-bold pt-2 text-sky-500">
-        Total score:{" "}
+        Score:{" "}
         <span>{totalScore}</span>
       </div>
     </section>

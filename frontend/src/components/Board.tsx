@@ -7,7 +7,7 @@ export const Board = () => {
   return (
     <ul
       className={`w-full overflow-x-scroll sm:overflow-hidden sm:w-auto flex flex-col gap-1 ${
-        gameProgress === "post-game" && "opacity-20"
+        gameProgress === "post-game" && "opacity-60"
       }`}
     >
       {boardGrid.map((row, i) => (
