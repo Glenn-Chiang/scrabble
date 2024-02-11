@@ -190,6 +190,11 @@ function scoreVerticalWord(
     lastLetterRow
   );
 
+  // Invalid words are assigned a score of -1
+  if (!validateWord(word)) {
+    score = -1;
+  }
+  
   return { word, score: score * wordMultiplier };
 }
 

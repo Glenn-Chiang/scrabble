@@ -46,7 +46,6 @@ export function useEvaluatePlay() {
 
     for (const wordScore of wordScores) {
       if (wordScore.score === -1) {
-        console.log(wordScore.word);
         // TODO: Handle invalid word
         dispatch(gameStateSlice.actions.setTurnState('invalid-words'))
         return false
