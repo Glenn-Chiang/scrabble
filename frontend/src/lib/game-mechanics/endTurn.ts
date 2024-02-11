@@ -9,22 +9,26 @@ import { useCurrentPlayer } from "./useCurrentPlayer";
 
 export function useEndTurn() {
   const dispatch = useAppDispatch();
-  const drawTiles = useDrawTiles()
-  const currentPlayerId = useCurrentPlayer()
-  const playerTiles = useAppSelector(state => state.playerTiles[currentPlayerId])
+  const drawTiles = useDrawTiles();
+  const currentPlayerId = useCurrentPlayer();
+  const playerTiles = useAppSelector(
+    (state) => state.playerTiles[currentPlayerId]
+  );
 
-  const endGame = useEndGame()
+  const endGame = useEndGame();
 
   return () => {
     // Draw tiles until rack limit is reached, or no tiles remain in bag
-    const drawnTiles = drawTiles(currentPlayerId, rackLimit - playerTiles.length)
-    const numberOfTilesDrawn = Object.keys(drawnTiles).length
+    const drawnTiles = drawTiles(
+      currentPlayerId,
+      rackLimit - playerTiles.length
+    );
+    const numberOfTilesDrawn = Object.keys(drawnTiles).length;
 
     // If player has 0 tiles left after the play and there are no tiles left in the tile bag to be drawn, end the game
     if (playerTiles.length === 0 && numberOfTilesDrawn === 0) {
-      endGame()
+      endGame();
     }
-
 
     // Clear the playGrid
     dispatch(playGridSlice.actions.clear());
@@ -33,6 +37,6 @@ export function useEndTurn() {
     // Advance to next turn
     dispatch(gameStateSlice.actions.nextTurn());
     // Reset turnState to pending
-    dispatch(gameStateSlice.actions.setTurnState('pending'))
+    dispatch(gameStateSlice.actions.setTurnState("pending"));
   };
 }
