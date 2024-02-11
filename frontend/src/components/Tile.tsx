@@ -5,6 +5,8 @@ import { playerTilesSlice } from "../redux-config/slices/playerTiles";
 import { useAppDispatch, useAppSelector } from "../redux-config/store";
 import { useCurrentPlayer } from "../lib/game-mechanics/useCurrentPlayer";
 import { tileExchangeSlice } from "../redux-config/slices/tileExchange";
+import { invalidWordsSlice } from "../redux-config/slices/invalidWords";
+import { gameStateSlice } from "../redux-config/slices/gameState";
 
 // Tile which has already been placed on the board on a previous turn. Cannot be removed.
 export const FixedTile = ({ letter }: { letter: string }) => {
@@ -40,6 +42,9 @@ export const PlayedTile = ({ letter, row, col }: PlayedTileProps) => {
     dispatch(
       playerTilesSlice.actions.addTile({ playerId: currentPlayerId, letter })
     );
+    // Reset invalid words
+    dispatch(invalidWordsSlice.actions.reset())
+    dispatch(gameStateSlice.actions.setTurnState('pending'))
   };
 
   return (

@@ -26,7 +26,7 @@ export function useEvaluatePlay() {
   return (): void => {
     if (!validatePlacement(playGrid, tileGrid, turnNumber)) {
       console.log("Invalid play");
-      dispatch(gameStateSlice.actions.setTurnState("invalid-placement"));
+      dispatch(gameStateSlice.actions.setTurnState("invalid"));
       dispatch(invalidWordsSlice.actions.reset())
       return;
     }
@@ -36,23 +36,22 @@ export function useEvaluatePlay() {
     // Determine column in which tiles were played during current turn, assuming that a vertical play was made
     const playedColumn = getPlayedColumn(playGrid);
 
-    // TODO: Check that all words formed are valid
-
     const wordScores =
       playedRow != -1
         ? scoreHorizontalPlay(tileGrid, playGrid, boardGrid, playedRow)
         : scoreVerticalPlay(tileGrid, playGrid, boardGrid, playedColumn);
 
+    console.log(wordScores)
+
     let hasInvalidWord = false;
     for (const wordScore of wordScores) {
-      if (wordScore.score === -1) {
+      if (wordScore.score < 0) {
         dispatch(invalidWordsSlice.actions.addWord(wordScore.word));
-        dispatch(gameStateSlice.actions.setTurnState("invalid-words"));
+        dispatch(gameStateSlice.actions.setTurnState("invalid"));
         hasInvalidWord = true;
       }
     }
     if (hasInvalidWord) {
-      dispatch(invalidWordsSlice.actions.reset())
       return;
     }
 

@@ -49,7 +49,7 @@ export default function Play() {
         ) : (
           <TileRack tiles={playerTiles} />
         ))}
-      {(turnState === "invalid-placement" || turnState === "invalid-words") && (
+      {(turnState === "invalid") && (
         <InvalidDisplay />
       )}
       {gameProgress === "post-game" && <ResultDisplay />}

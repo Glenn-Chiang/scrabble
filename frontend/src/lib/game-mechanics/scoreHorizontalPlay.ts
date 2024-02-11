@@ -168,10 +168,10 @@ function scoreHorizontalWord(
   // If this is the first play in the game, fixedColIndices will be empty. In that case, we simply set firstLetterCol and lastLetterCol to the leftPlayedCol and rightPlayedCol respectively
   // Index of column containing the leftmost tile (i.e. the first letter) that forms the horizontal word
   const firstLetterCol =
-    leftFixedCol == -1 ? leftPlayedCol : Math.min(leftFixedCol, leftPlayedCol);
+    leftFixedCol === -1 ? leftPlayedCol : Math.min(leftFixedCol, leftPlayedCol);
   // Index of column containing the rightmost tile (i.e. the last letter) that forms the horizontal word
   const lastLetterCol =
-    rightFixedCol == -1
+    rightFixedCol === -1
       ? rightPlayedCol
       : Math.max(rightFixedCol, rightPlayedCol);
 
