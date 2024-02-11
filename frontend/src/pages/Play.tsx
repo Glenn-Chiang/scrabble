@@ -14,6 +14,7 @@ import { useCurrentPlayer } from "../lib/game-mechanics/useCurrentPlayer";
 import { gameStateSlice } from "../redux-config/slices/gameState";
 import { useAppDispatch, useAppSelector } from "../redux-config/store";
 import { useSkipTurn } from "../lib/game-mechanics/skipTurn";
+import { useEndGame } from "../lib/game-mechanics/endGame";
 
 export default function Play() {
   const currentPlayerId = useCurrentPlayer();
@@ -39,18 +40,32 @@ export default function Play() {
           <EndTurnButton />
         </div>
       )}
-      {turnState === "exchanging" ? (
-        <TileExchangeMenu>
+
+      {gameProgress === "in-game" &&
+        (turnState === "exchanging" ? (
+          <TileExchangeMenu>
+            <TileRack tiles={playerTiles} />
+          </TileExchangeMenu>
+        ) : (
           <TileRack tiles={playerTiles} />
-        </TileExchangeMenu>
-      ) : (
-        <TileRack tiles={playerTiles} />
-      )}
+        ))}
       {(turnState === "invalid-placement" || turnState === "invalid-words") && (
         <InvalidDisplay />
       )}
       <Board />
+      {gameProgress === "in-game" && <QuitButton />}
     </main>
+  );
+}
+
+function QuitButton() {
+  const endGame = useEndGame();
+  return (
+    <ActionButton
+      label="Quit game"
+      className="bg-rose-500 text-white"
+      onClick={() => endGame()}
+    />
   );
 }
 
