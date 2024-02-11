@@ -12,12 +12,12 @@ export const useDrawTiles = () => {
   return (playerId: number) => {
     const currentTileCount = playerTiles[playerId].length // Number of tiles the current player has in their rack
     const numberToDraw = rackLimit - currentTileCount 
-    // TODO: Handle running out of tiles
     const selectedTiles: { [letter: string]: number } = getRandomTiles(
       { ...tileBag },
       numberToDraw
-    );
-
+      );
+      
+    // If there are no more tiles in the bag, selectedTiles will be empty
     for (const letter of Object.keys(selectedTiles)) {
       const count = selectedTiles[letter]
       // Remove tiles from tileBag
@@ -40,8 +40,12 @@ const getRandomTiles = (
   const result: { [letter: string]: number } = {};
   let numberDrawn = 0;
 
-  while (numberDrawn < quota) {
+  while (numberDrawn < quota ) {
+    // Array of letters that have at least 1 tile remaining
     const remainingLetters = letters.filter((letter) => tileBag[letter] > 0);
+    if (remainingLetters.length === 0) {
+      break
+    }
     const randomIndex = Math.floor(Math.random() * remainingLetters.length);
     const letter = remainingLetters[randomIndex];
     tileBag[letter] -= 1;

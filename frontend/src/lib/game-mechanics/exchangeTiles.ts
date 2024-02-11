@@ -1,0 +1,20 @@
+import { playerTilesSlice } from "../../redux-config/slices/playerTiles";
+import { tileBagSlice } from "../../redux-config/slices/tileBag";
+import { useAppDispatch } from "../../redux-config/store";
+import { useDrawTiles } from "./drawTiles";
+
+// During their turn, the player can choose to exchange one or more tiles for an equal number from the bag and score 0
+export function useExchangeTiles() {
+  const dispatch = useAppDispatch()
+  const drawTiles = useDrawTiles()
+
+  return (playerId: number, lettersToExchange: string[]) => {
+    // remove specified tiles from player's rack
+    dispatch(playerTilesSlice.actions.removeTiles({playerId, letters: lettersToExchange}))
+    // add tiles back to tileBag
+    dispatch(tileBagSlice.actions.addTiles(lettersToExchange))
+    
+    // draw the same number of tiles that were returned
+    drawTiles(playerId)
+  }
+}

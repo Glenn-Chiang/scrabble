@@ -6,10 +6,18 @@ export const tileBagSlice = createSlice({
   name: "tile-bag",
   initialState: tileCounts, // Initialize with full bag of tiles
   reducers: {
-    removeTile: (tileCounts, action: PayloadAction<[string, number]>) => {
-      const [tileLetter, numberToRemove] = action.payload;
-      tileCounts[tileLetter] -= numberToRemove;
+    removeTile: (state, action: PayloadAction<[string, number]>) => {
+      const [letter, numberToRemove] = action.payload;
+      state[letter] -= numberToRemove;
     },
+    addTiles: (state, action: PayloadAction<string[]>) => {
+      const letters = action.payload
+      for (const letter of letters) {
+        if (state[letter] < tileCounts[letter]) {
+          state[letter]++
+        }
+      }
+    }
   },
 });
 

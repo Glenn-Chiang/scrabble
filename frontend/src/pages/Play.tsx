@@ -26,9 +26,9 @@ export default function Play() {
 
   const handleStart = () => {
     // Draw first 7 tiles for both players
-    drawTiles(0)
-    drawTiles(1)
-  }
+    drawTiles(0);
+    drawTiles(1);
+  };
 
   return (
     <main className="flex flex-col gap-4 justify-center items-center w-full">
@@ -42,18 +42,19 @@ export default function Play() {
       <Board />
       <div className="flex gap-2">
         <button onClick={handleStart}>Start</button>
-        <button
-          onClick={() => evaluatePlay()}
-          className="bg-teal-500 text-white p-2"
-        >
-          Check
-        </button>
-        {turnState === "valid" && (
+        {turnState === "valid" ? (
           <button
             onClick={() => endTurn()}
-            className="bg-rose-500 text-white p-2"
+            className="bg-sky-500 text-white p-2 shadow"
           >
             End turn
+          </button>
+        ) : (
+          <button
+            onClick={() => evaluatePlay()}
+            className="bg-teal-500 text-white p-2 shadow"
+          >
+            Check
           </button>
         )}
       </div>

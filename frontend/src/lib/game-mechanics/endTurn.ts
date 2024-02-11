@@ -11,8 +11,12 @@ export function useEndTurn() {
   const currentPlayerId = useCurrentPlayer()
 
   return () => {
-    // Draw tiles for current player to prepare for their next turn
+    // Draw tiles until player has 7 tiles, or no tiles remain in bag
     drawTiles(currentPlayerId)
+
+    // TODO: If player still has 0 tiles after attempting to draw tiles, that means we have run out of tiles and the game should end
+    // TODO: What other conditions do we need to check to determine whether the game should end?
+
     // Clear the playGrid
     dispatch(playGridSlice.actions.clear());
     // Clear word scores
