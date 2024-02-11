@@ -9,6 +9,9 @@ import { useEvaluatePlay } from "../lib/game-mechanics/evaluatePlay";
 import { useCurrentPlayer } from "../lib/game-mechanics/useCurrentPlayer";
 import { useAppSelector } from "../redux-config/store";
 import { useDrawTiles } from "../lib/game-mechanics/drawTiles";
+import { useExchangeTiles } from "../lib/game-mechanics/exchangeTiles";
+import { useDispatch } from "react-redux";
+import { gameStateSlice } from "../redux-config/slices/gameState";
 
 export default function Play() {
   const currentPlayerId = useCurrentPlayer();
@@ -17,8 +20,6 @@ export default function Play() {
   );
 
   const drawTiles = useDrawTiles();
-  const evaluatePlay = useEvaluatePlay();
-  const endTurn = useEndTurn();
 
   const turnState = useAppSelector((state) => state.gameState.turnState);
 
@@ -42,23 +43,79 @@ export default function Play() {
       <Board />
       <div className="flex gap-2">
         <button onClick={handleStart}>Start</button>
-        {turnState === "valid" ? (
-          <button
-            onClick={() => endTurn()}
-            className="bg-sky-500 text-white p-2 shadow"
-          >
-            End turn
-          </button>
-        ) : (
-          <button
-            onClick={() => evaluatePlay()}
-            className="bg-teal-500 text-white p-2 shadow"
-          >
-            Check
-          </button>
-        )}
+        <CheckPlayButton />
+        <ExchangeTilesButton/>
+        <EndTurnButton />
       </div>
       <TileRack tiles={playerTiles} />
     </main>
+  );
+}
+
+function CheckPlayButton() {
+  const evaluatePlay = useEvaluatePlay();
+
+  return (
+    <ActionButton
+      label="Check play"
+      className="bg-teal-500"
+      onClick={() => evaluatePlay()}
+    />
+  );
+}
+
+function ExchangeTilesButton() {
+  const dispatch = useDispatch()
+  const handleClick = () => {
+    dispatch(gameStateSlice.actions.setTurnState('exchanging'))
+  }
+
+  return (
+    <ActionButton
+      label="Exchange tiles"
+      className="bg-yellow-500"
+      onClick={handleClick} //TODO: Get letters to exchange
+    />
+  );
+}
+
+function EndTurnButton() {
+  const endTurn = useEndTurn();
+  const turnState = useAppSelector((state) => state.gameState.turnState);
+
+  return (
+    <ActionButton
+      label="End turn"
+      className="bg-sky-500"
+      disabled={turnState !== "valid"}
+      onClick={() => endTurn()}
+    />
+  );
+}
+
+interface ActionButtonProps {
+  label: string;
+  className: string;
+  disabled?: boolean;
+  onClick: () => void;
+}
+
+function ActionButton({
+  label,
+  className,
+  disabled,
+  onClick,
+}: ActionButtonProps) {
+  return (
+    <button
+      onClick={onClick}
+      className={[
+        className,
+        `p-2 shadow text-white ${disabled && "opacity-50"}`,
+      ].join(" ")}
+      disabled={disabled}
+    >
+      {label}
+    </button>
   );
 }

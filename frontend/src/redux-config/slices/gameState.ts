@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type TurnState = 'pending' | 'invalid-placement' | 'invalid-words' | 'valid'
+type TurnState = 'pending' | 'exchanging' | 'invalid-placement' | 'invalid-words' | 'valid'
 
 type GameState = {
   turnNumber: number,
