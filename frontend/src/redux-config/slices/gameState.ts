@@ -4,12 +4,14 @@ type TurnState = 'pending' | 'exchanging' | 'invalid-placement' | 'invalid-words
 
 type GameState = {
   turnNumber: number,
-  turnState: TurnState
+  turnState: TurnState,
+  consecutiveSkips: number
 }
 
 const initialState: GameState = {
   turnNumber: 0,
-  turnState: 'pending'
+  turnState: 'pending',
+  consecutiveSkips: 0
 }
 
 export const gameStateSlice = createSlice({
@@ -21,6 +23,13 @@ export const gameStateSlice = createSlice({
     },
     setTurnState: (state, action: PayloadAction<TurnState>) => {
       state.turnState = action.payload
+    },
+    addSkip: (state) => {
+      state.consecutiveSkips++
+    },
+    resetSkips: (state) => {
+      state.consecutiveSkips = 0
     }
+
   }
 })

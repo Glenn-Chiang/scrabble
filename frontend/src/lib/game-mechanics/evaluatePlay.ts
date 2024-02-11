@@ -66,6 +66,8 @@ export function useEvaluatePlay() {
     );
 
     dispatch(gameStateSlice.actions.setTurnState('valid'))
+    // Reset skip counter
+    dispatch(gameStateSlice.actions.resetSkips())
     return true;
   };
 }

@@ -13,6 +13,7 @@ import { useEvaluatePlay } from "../lib/game-mechanics/evaluatePlay";
 import { useCurrentPlayer } from "../lib/game-mechanics/useCurrentPlayer";
 import { gameStateSlice } from "../redux-config/slices/gameState";
 import { useAppSelector } from "../redux-config/store";
+import { useSkipTurn } from "../lib/game-mechanics/skipTurn";
 
 export default function Play() {
   const currentPlayerId = useCurrentPlayer();
@@ -38,11 +39,7 @@ export default function Play() {
         <ScoreBoard />
         <WordsDisplay />
       </div>
-      {(turnState === "invalid-placement" || turnState === "invalid-words") && (
-        <InvalidDisplay />
-      )}
-      <Board />
-        <button onClick={handleStart}>Start</button>
+      <button onClick={handleStart}>Start</button>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-white p-4 rounded-md w-full">
         <PlaceTilesButton />
         <ExchangeTilesButton />
@@ -56,6 +53,10 @@ export default function Play() {
       ) : (
         <TileRack tiles={playerTiles} />
       )}
+      {(turnState === "invalid-placement" || turnState === "invalid-words") && (
+        <InvalidDisplay />
+      )}
+      <Board />
     </main>
   );
 }
@@ -92,15 +93,15 @@ function ExchangeTilesButton() {
 }
 
 function SkipTurnButton() {
-  const endTurn = useEndTurn();
+  const skipTurn = useSkipTurn()
   const turnState = useAppSelector((state) => state.gameState.turnState);
 
   return (
     <ActionButton
       label="Skip turn"
       className="bg-rose-50 text-rose-400"
-      onClick={() => endTurn()}
-      disabled={turnState === 'valid'}
+      onClick={() => skipTurn()}
+      disabled={turnState === "valid"}
     />
   );
 }
