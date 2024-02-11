@@ -16,7 +16,7 @@ export function ActionButton({
       onClick={onClick}
       className={[
         className,
-        `py-2 px-4 shadow rounded-lg text-white ${disabled && "opacity-50"}`,
+        `py-2 px-4 shadow rounded-lg text-white ${disabled && "opacity-50 animate-none"}`,
       ].join(" ")}
       disabled={disabled}
     >

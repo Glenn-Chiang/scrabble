@@ -97,7 +97,7 @@ function EndTurnButton() {
   return (
     <ActionButton
       label="End turn"
-      className="bg-sky-500"
+      className="bg-sky-500 animate-pulse"
       disabled={turnState !== "valid"}
       onClick={() => endTurn()}
     />

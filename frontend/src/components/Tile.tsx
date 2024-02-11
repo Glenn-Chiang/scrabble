@@ -31,13 +31,15 @@ interface PlayedTileProps {
 export const PlayedTile = ({ letter, row, col }: PlayedTileProps) => {
   const points = tilePoints[letter];
   const dispatch = useAppDispatch();
-  const currentPlayerId = useCurrentPlayer()
+  const currentPlayerId = useCurrentPlayer();
 
   const handleClick = () => {
     // Remove tile from board
     dispatch(playGridSlice.actions.removeTile({ row, col }));
     // Return tile to player's tile rack
-    dispatch(playerTilesSlice.actions.addTile({playerId: currentPlayerId, letter}))
+    dispatch(
+      playerTilesSlice.actions.addTile({ playerId: currentPlayerId, letter })
+    );
   };
 
   return (
@@ -61,31 +63,35 @@ export const UnplayedTile = ({
   index: number;
 }) => {
   const dispatch = useAppDispatch();
-  const turnState = useAppSelector(state => state.gameState.turnState)
-  
+  const turnState = useAppSelector((state) => state.gameState.turnState);
+
   // Tile that is selected to be PLAYED
   const tileIndexForPlay = useAppSelector(
     (state) => state.selectedTile.selectedTileIndex
   );
   // Tiles that are selected to be EXCHANGED
-  const tileIndicesForExchange = useAppSelector(state => state.tileExchange)
+  const tileIndicesForExchange = useAppSelector((state) => state.tileExchange);
 
   const handleClick = () => {
-    if (turnState === 'exchanging') {
+    if (turnState === "exchanging") {
       // Select tile to be exchanged
-      dispatch(tileExchangeSlice.actions.selectTile(index))
+      dispatch(tileExchangeSlice.actions.selectTile(index));
     } else {
       dispatch(selectedTileSlice.actions.selectTile(index));
     }
   };
 
-  const selectedForPlay = turnState !== 'exchanging' && tileIndexForPlay === index
-  const selectedForExchange = turnState === 'exchanging' && tileIndicesForExchange.includes(index)
-  const isSelected = selectedForPlay || selectedForExchange
+  const selectedForPlay =
+    turnState !== "exchanging" && tileIndexForPlay === index;
+  const selectedForExchange =
+    turnState === "exchanging" && tileIndicesForExchange.includes(index);
+  const isSelected = selectedForPlay || selectedForExchange;
 
   const points = tilePoints[letter];
+
   return (
     <button
+      disabled={turnState === "valid"}
       onClick={handleClick}
       className={`rounded w-10 h-10 flex justify-center items-center shadow font-bold relative ${
         isSelected

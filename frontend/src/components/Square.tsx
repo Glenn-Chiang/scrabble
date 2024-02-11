@@ -36,7 +36,7 @@ export const EmptySquare = ({ value, row, col }: SquareProps) => {
     (state) => state.selectedTile.selectedTileIndex
   );
   const playerTiles = useAppSelector((state) => state.playerTiles);
-  const currentPlayerId = useCurrentPlayer()
+  const currentPlayerId = useCurrentPlayer();
   const selectedLetter = playerTiles[currentPlayerId][selectedTileIndex];
 
   const dispatch = useAppDispatch();
@@ -47,13 +47,19 @@ export const EmptySquare = ({ value, row, col }: SquareProps) => {
       playGridSlice.actions.placeTile({ row, col, letter: selectedLetter })
     );
     dispatch(
-      playerTilesSlice.actions.removeTile({playerId: currentPlayerId, letter: selectedLetter})
-    )
+      playerTilesSlice.actions.removeTile({
+        playerId: currentPlayerId,
+        letter: selectedLetter,
+      })
+    );
   };
+
+  const turnState = useAppSelector((state) => state.gameState.turnState);
 
   const color = getSquareColor(value);
   return (
     <button
+      disabled={turnState === "valid" || turnState === 'exchanging'}
       onClick={handleClick}
       className={`${color} hover:shadow text-white rounded min-w-10 h-10 flex justify-center items-center`}
     >
