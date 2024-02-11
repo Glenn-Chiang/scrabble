@@ -1,4 +1,5 @@
 import { gameStateSlice } from "../../redux-config/slices/gameState";
+import { invalidWordsSlice } from "../../redux-config/slices/invalidWords";
 import { playGridSlice } from "../../redux-config/slices/playGrid";
 import { wordScoresSlice } from "../../redux-config/slices/wordScores";
 import { useAppDispatch, useAppSelector } from "../../redux-config/store";
@@ -30,10 +31,12 @@ export function useEndTurn() {
       endGame();
     }
 
-    // Clear the playGrid
+    // Reset the playGrid
     dispatch(playGridSlice.actions.reset());
-    // Clear word scores
+    // Reset word scores
     dispatch(wordScoresSlice.actions.reset());
+    // Reset invalid words
+    dispatch(invalidWordsSlice.actions.reset())
     // Advance to next turn
     dispatch(gameStateSlice.actions.nextTurn());
     // Reset turnState to pending

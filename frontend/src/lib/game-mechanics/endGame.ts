@@ -1,4 +1,5 @@
 import { gameStateSlice } from "../../redux-config/slices/gameState";
+import { invalidWordsSlice } from "../../redux-config/slices/invalidWords";
 import { playGridSlice } from "../../redux-config/slices/playGrid";
 import { selectedTileSlice } from "../../redux-config/slices/selectedTile";
 import { tileExchangeSlice } from "../../redux-config/slices/tileExchange";
@@ -16,5 +17,6 @@ export function useEndGame() {
     dispatch(wordScoresSlice.actions.reset());
     dispatch(selectedTileSlice.actions.reset())
     dispatch(tileExchangeSlice.actions.reset())
+    dispatch(invalidWordsSlice.actions.reset())
   };
 }

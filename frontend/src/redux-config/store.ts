@@ -9,6 +9,7 @@ import { wordScoresSlice } from "./slices/wordScores";
 import { playerScoresSlice } from "./slices/playerScores";
 import { gameStateSlice } from "./slices/gameState";
 import { tileExchangeSlice } from "./slices/tileExchange";
+import { invalidWordsSlice } from "./slices/invalidWords";
 
 export const store = configureStore({
   reducer: {
@@ -20,7 +21,8 @@ export const store = configureStore({
     wordScores: wordScoresSlice.reducer,
     playerScores: playerScoresSlice.reducer,
     gameState: gameStateSlice.reducer,
-    tileExchange: tileExchangeSlice.reducer
+    tileExchange: tileExchangeSlice.reducer,
+    invalidWords: invalidWordsSlice.reducer
   }
 })
 

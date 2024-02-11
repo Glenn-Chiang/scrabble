@@ -1,4 +1,5 @@
 import { gameStateSlice } from "../../redux-config/slices/gameState";
+import { invalidWordsSlice } from "../../redux-config/slices/invalidWords";
 import { playerScoresSlice } from "../../redux-config/slices/playerScores";
 import { tileGridSlice } from "../../redux-config/slices/tileGrid";
 import { wordScoresSlice } from "../../redux-config/slices/wordScores";
@@ -18,16 +19,17 @@ export function useEvaluatePlay() {
   const tileGrid = useAppSelector((state) => state.tileGrid);
   const playGrid = useAppSelector((state) => state.playGrid);
   const currentPlayerId = useCurrentPlayer();
-  const turnNumber = useAppSelector(state => state.gameState.turnNumber)
+  const turnNumber = useAppSelector((state) => state.gameState.turnNumber);
 
   const dispatch = useAppDispatch();
 
-  return (): boolean => {
+  return (): void => {
     if (!validatePlacement(playGrid, tileGrid, turnNumber)) {
       console.log("Invalid play");
-      dispatch(gameStateSlice.actions.setTurnState('invalid-placement'))
-      return false;
-    }        
+      dispatch(gameStateSlice.actions.setTurnState("invalid-placement"));
+      dispatch(invalidWordsSlice.actions.reset())
+      return;
+    }
 
     // Determine row in which tiles were played during current turn, assuming that a horizontal play was made
     const playedRow = getPlayedRow(playGrid);
@@ -41,15 +43,17 @@ export function useEvaluatePlay() {
         ? scoreHorizontalPlay(tileGrid, playGrid, boardGrid, playedRow)
         : scoreVerticalPlay(tileGrid, playGrid, boardGrid, playedColumn);
 
-    console.log(wordScores);
-    console.log("Invalid words:");
-
+    let hasInvalidWord = false;
     for (const wordScore of wordScores) {
       if (wordScore.score === -1) {
-        // TODO: Handle invalid word
-        dispatch(gameStateSlice.actions.setTurnState('invalid-words'))
-        return false
+        dispatch(invalidWordsSlice.actions.addWord(wordScore.word));
+        dispatch(gameStateSlice.actions.setTurnState("invalid-words"));
+        hasInvalidWord = true;
       }
+    }
+    if (hasInvalidWord) {
+      dispatch(invalidWordsSlice.actions.reset())
+      return;
     }
 
     // Confirm placement of tiles onto tileGrid. They will now be fixed.
@@ -64,9 +68,9 @@ export function useEvaluatePlay() {
       })
     );
 
-    dispatch(gameStateSlice.actions.setTurnState('valid'))
+    dispatch(gameStateSlice.actions.setTurnState("valid"));
     // Reset skip counter
-    dispatch(gameStateSlice.actions.resetSkips())
-    return true;
+    dispatch(gameStateSlice.actions.resetSkips());
+    return;
   };
 }
