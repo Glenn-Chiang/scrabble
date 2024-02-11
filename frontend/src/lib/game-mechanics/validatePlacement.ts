@@ -62,7 +62,6 @@ export function validatePlacement(
 
 // Check that the center cell is not empty
 function checkCenter(playGrid: string[][]) {
-  console.log(playGrid[(playGrid.length - 1) / 2][(playGrid[0].length - 1) / 2])
   return playGrid[(playGrid.length - 1) / 2][(playGrid[0].length - 1) / 2] !== ""
 }
 

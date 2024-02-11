@@ -4,6 +4,7 @@ import { playGridSlice } from "../redux-config/slices/playGrid";
 import { playerTilesSlice } from "../redux-config/slices/playerTiles";
 import { useAppDispatch, useAppSelector } from "../redux-config/store";
 import { useCurrentPlayer } from "../lib/game-mechanics/useCurrentPlayer";
+import { tileExchangeSlice } from "../redux-config/slices/tileExchange";
 
 // Tile which has already been placed on the board on a previous turn. Cannot be removed.
 export const FixedTile = ({ letter }: { letter: string }) => {
@@ -60,15 +61,27 @@ export const UnplayedTile = ({
   index: number;
 }) => {
   const dispatch = useAppDispatch();
-  const selectedTileIndex = useAppSelector(
+  const turnState = useAppSelector(state => state.gameState.turnState)
+  
+  // Tile that is selected to be PLAYED
+  const tileIndexForPlay = useAppSelector(
     (state) => state.selectedTile.selectedTileIndex
   );
+  // Tiles that are selected to be EXCHANGED
+  const tileIndicesForExchange = useAppSelector(state => state.tileExchange)
 
   const handleClick = () => {
-    dispatch(selectedTileSlice.actions.selectTile(index));
+    if (turnState === 'exchanging') {
+      // Select tile to be exchanged
+      dispatch(tileExchangeSlice.actions.selectTile(index))
+    } else {
+      dispatch(selectedTileSlice.actions.selectTile(index));
+    }
   };
 
-  const isSelected = selectedTileIndex === index;
+  const selectedForPlay = turnState !== 'exchanging' && tileIndexForPlay === index
+  const selectedForExchange = turnState === 'exchanging' && tileIndicesForExchange.includes(index)
+  const isSelected = selectedForPlay || selectedForExchange
 
   const points = tilePoints[letter];
   return (

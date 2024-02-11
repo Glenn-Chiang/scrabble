@@ -1,3 +1,5 @@
+export const rackLimit = 7
+
 export const tileCounts: {[letter: string]: number} = {
   E: 12,
   A: 9,

@@ -1,17 +1,18 @@
-import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { ActionButton } from "../components/ActionButton";
 import { Board } from "../components/Board";
 import { InvalidDisplay } from "../components/InvalidDisplay";
 import { ScoreBoard } from "../components/ScoreBoard";
 import { TileRack } from "../components/TileRack";
 import { WordsDisplay } from "../components/WordsDisplay";
+import { useDrawTiles } from "../lib/game-mechanics/drawTiles";
 import { useEndTurn } from "../lib/game-mechanics/endTurn";
 import { useEvaluatePlay } from "../lib/game-mechanics/evaluatePlay";
 import { useCurrentPlayer } from "../lib/game-mechanics/useCurrentPlayer";
-import { useAppSelector } from "../redux-config/store";
-import { useDrawTiles } from "../lib/game-mechanics/drawTiles";
-import { useExchangeTiles } from "../lib/game-mechanics/exchangeTiles";
-import { useDispatch } from "react-redux";
 import { gameStateSlice } from "../redux-config/slices/gameState";
+import { useAppSelector } from "../redux-config/store";
+import { TileExchangeMenu } from "../components/TileExchangeMenu";
+import { rackLimit } from "../lib/game-constants/tiles";
 
 export default function Play() {
   const currentPlayerId = useCurrentPlayer();
@@ -27,8 +28,8 @@ export default function Play() {
 
   const handleStart = () => {
     // Draw first 7 tiles for both players
-    drawTiles(0);
-    drawTiles(1);
+    drawTiles(0, rackLimit);
+    drawTiles(1, rackLimit);
   };
 
   return (
@@ -44,37 +45,47 @@ export default function Play() {
       <div className="flex gap-2">
         <button onClick={handleStart}>Start</button>
         <CheckPlayButton />
-        <ExchangeTilesButton/>
+        <ExchangeTilesButton />
         <EndTurnButton />
       </div>
-      <TileRack tiles={playerTiles} />
+      {turnState === "exchanging" ? (
+        <TileExchangeMenu>
+          <TileRack tiles={playerTiles} />
+        </TileExchangeMenu>
+      ) : (
+        <TileRack tiles={playerTiles} />
+      )}
     </main>
   );
 }
 
 function CheckPlayButton() {
   const evaluatePlay = useEvaluatePlay();
+  const turnState = useAppSelector((state) => state.gameState.turnState);
 
   return (
     <ActionButton
       label="Check play"
       className="bg-teal-500"
       onClick={() => evaluatePlay()}
+      disabled={turnState === "exchanging" || turnState === 'valid'}
     />
   );
 }
 
 function ExchangeTilesButton() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleClick = () => {
-    dispatch(gameStateSlice.actions.setTurnState('exchanging'))
-  }
+    dispatch(gameStateSlice.actions.setTurnState("exchanging"));
+  };
+  const turnState = useAppSelector((state) => state.gameState.turnState);
 
   return (
     <ActionButton
       label="Exchange tiles"
-      className="bg-yellow-500"
+      className="bg-cyan-500"
       onClick={handleClick} //TODO: Get letters to exchange
+      disabled={turnState === 'exchanging' || turnState === 'valid'}
     />
   );
 }
@@ -90,32 +101,5 @@ function EndTurnButton() {
       disabled={turnState !== "valid"}
       onClick={() => endTurn()}
     />
-  );
-}
-
-interface ActionButtonProps {
-  label: string;
-  className: string;
-  disabled?: boolean;
-  onClick: () => void;
-}
-
-function ActionButton({
-  label,
-  className,
-  disabled,
-  onClick,
-}: ActionButtonProps) {
-  return (
-    <button
-      onClick={onClick}
-      className={[
-        className,
-        `p-2 shadow text-white ${disabled && "opacity-50"}`,
-      ].join(" ")}
-      disabled={disabled}
-    >
-      {label}
-    </button>
   );
 }

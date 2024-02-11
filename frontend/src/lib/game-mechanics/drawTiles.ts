@@ -1,17 +1,12 @@
 import { playerTilesSlice } from "../../redux-config/slices/playerTiles";
-import { removeTile, selectTileBag } from "../../redux-config/slices/tileBag";
+import { removeTile } from "../../redux-config/slices/tileBag";
 import { useAppDispatch, useAppSelector } from "../../redux-config/store";
-
-const rackLimit = 7
 
 export const useDrawTiles = () => {
   const dispatch = useAppDispatch();
-  const tileBag = useAppSelector(selectTileBag);
-  const playerTiles = useAppSelector(state => state.playerTiles)
+  const tileBag = useAppSelector(state => state.tileBag);
 
-  return (playerId: number) => {
-    const currentTileCount = playerTiles[playerId].length // Number of tiles the current player has in their rack
-    const numberToDraw = rackLimit - currentTileCount 
+  return (playerId: number, numberToDraw: number) => {
     const selectedTiles: { [letter: string]: number } = getRandomTiles(
       { ...tileBag },
       numberToDraw
@@ -27,6 +22,8 @@ export const useDrawTiles = () => {
         dispatch(playerTilesSlice.actions.addTile({playerId, letter: letter}))
       }
     }
+    
+    return selectedTiles
   };
 };
 

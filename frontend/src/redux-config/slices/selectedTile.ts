@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  selectedTileIndex: -1, // which playable tile is currently selected by player
+  selectedTileIndex: 0, // which playable tile is currently selected by player
 };
 
 export const selectedTileSlice = createSlice({

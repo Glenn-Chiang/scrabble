@@ -1,5 +1,6 @@
 import { playerTilesSlice } from "../../redux-config/slices/playerTiles";
 import { tileBagSlice } from "../../redux-config/slices/tileBag";
+import { tileExchangeSlice } from "../../redux-config/slices/tileExchange";
 import { useAppDispatch } from "../../redux-config/store";
 import { useDrawTiles } from "./drawTiles";
 import { useCurrentPlayer } from "./useCurrentPlayer";
@@ -17,6 +18,9 @@ export function useExchangeTiles() {
     dispatch(tileBagSlice.actions.addTiles(lettersToExchange))
     
     // draw the same number of tiles that were returned
-    drawTiles(playerId)
+    drawTiles(playerId, lettersToExchange.length)
+
+    // clear selection
+    dispatch(tileExchangeSlice.actions.clear())
   }
 }
