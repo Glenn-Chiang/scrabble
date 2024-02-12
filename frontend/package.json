@@ -1,5 +1,5 @@
 {
-  "name": "@glenn_chiang/react-starter",
+  "name": "scrabble",
   "version": "0.0.1",
   "type": "module",
   "scripts": {
