@@ -18,5 +18,6 @@ export function useEndGame() {
     dispatch(selectedTileSlice.actions.reset())
     dispatch(tileExchangeSlice.actions.reset())
     dispatch(invalidWordsSlice.actions.reset())
+    dispatch(gameStateSlice.actions.setTurnState('valid'))
   };
 }
