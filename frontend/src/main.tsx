@@ -1,20 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import "./index.css";
+import { persistor, store } from "./redux-config/store.ts";
 import router from "./router.tsx";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { Provider } from "react-redux";
-import { store } from "./redux-config/store.ts";
-
-const queryClient = new QueryClient();
+import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
+      <PersistGate loading={null} persistor={persistor}>
         <RouterProvider router={router} />
-      </QueryClientProvider>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );

@@ -27,7 +27,7 @@ export const tileCounts: {[letter: string]: number} = {
   X: 1,
   Q: 1,
   Z: 1,
-  '*': 2
+  // '*': 2
 };
 
 export const tilePoints: {[letter: string]: number} = {
