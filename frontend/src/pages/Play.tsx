@@ -10,7 +10,7 @@ import { useAppSelector } from "../redux-config/store";
 import {
   StartButton,
   QuitButton,
-  CheckButton,
+  SubmitButton,
   ExchangeTilesButton,
   SkipTurnButton,
   EndTurnButton,
@@ -34,9 +34,9 @@ export default function Play() {
       {gameProgress === "pre-game" && <StartButton />}
       {gameProgress === "in-game" && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-white p-4 rounded-md w-full">
-          <CheckButton />
           <ExchangeTilesButton />
           <SkipTurnButton />
+          <SubmitButton />
           <EndTurnButton />
         </div>
       )}

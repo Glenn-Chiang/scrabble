@@ -32,6 +32,7 @@ export const Square = ({ value, row, col }: SquareProps) => {
 };
 
 export const EmptySquare = ({ value, row, col }: SquareProps) => {
+  const dispatch = useAppDispatch();
   const selectedTileIndex = useAppSelector(
     (state) => state.selectedTile.selectedTileIndex
   );
@@ -39,13 +40,16 @@ export const EmptySquare = ({ value, row, col }: SquareProps) => {
   const currentPlayerId = useCurrentPlayer();
   const selectedLetter = playerTiles[currentPlayerId][selectedTileIndex];
 
-  const dispatch = useAppDispatch();
+  // If selected tile is blank i.e. selectedLetter is *, we prompt the user to choose the letter that the tile should represent
+  
 
   // Clicking an empty square will place the selected tile on that square and remove it from the player's tile rack
   const handleClick = () => {
+    // add tile to playGrid
     dispatch(
       playGridSlice.actions.placeTile({ row, col, letter: selectedLetter })
     );
+    // remove tile from player rack
     dispatch(
       playerTilesSlice.actions.removeTile({
         playerId: currentPlayerId,
