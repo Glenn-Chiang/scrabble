@@ -147,11 +147,6 @@ function scoreHorizontalWord(
     }
   }
 
-  // If there is only 1 tile in the row, we don't count it as a word
-  if (playedColIndices.length === 1) {
-    return null;
-  }
-
   // Index of leftmost column in playGrid where a tile is present
   const leftPlayedCol = playedColIndices[0];
   // Index of rightmost column in playGrid where a tile is present
@@ -210,6 +205,11 @@ function scoreHorizontalWord(
     rightFixedCol === -1
       ? rightPlayedCol
       : Math.max(rightFixedCol, rightPlayedCol);
+
+  // If the word that is formed by the horizontal play only consists of 1 tile, we don't count it as a word
+  if (firstLetterCol === lastLetterCol) {
+    return null;
+  }
 
   const word = getHorizontalWord(
     playGrid,

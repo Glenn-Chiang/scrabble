@@ -13,6 +13,7 @@ export function useStartGame() {
   const drawTiles = useDrawTiles();
   return () => {
     // Reset all game state
+    dispatch(gameStateSlice.actions.reset())
     dispatch(tileGridSlice.actions.reset())
     dispatch(playGridSlice.actions.reset())
     dispatch(tileBagSlice.actions.reset())

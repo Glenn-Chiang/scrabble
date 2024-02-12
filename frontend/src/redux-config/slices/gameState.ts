@@ -36,7 +36,8 @@ export const gameStateSlice = createSlice({
     },
     setGameProgress: (state, action: PayloadAction<GameProgress>) => {
       state.gameProgress = action.payload
-    }
+    },
+    reset: () => initialState
 
   }
 })

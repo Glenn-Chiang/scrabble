@@ -24,7 +24,7 @@ export function scoreVerticalPlay(
     playedColumn
   );
   if (verticalWordScore) {
-    wordScores.push(verticalWordScore)
+    wordScores.push(verticalWordScore);
   }
   wordScores.push(...horizontalWordScores);
   return wordScores;
@@ -49,12 +49,12 @@ function scoreHorizontalWords(
 
   function scoreHorizontalWord(row: number) {
     let score = 0;
-    let wordMultiplier = 1
+    let wordMultiplier = 1;
 
     const letters = [playGrid[row][playedColumn]];
-    const playedLetter = playGrid[row][playedColumn]
-    const boardValue = boardGrid[row][playedColumn]
-    let tilePoints = tileBasePoints[playedLetter]
+    const playedLetter = playGrid[row][playedColumn];
+    const boardValue = boardGrid[row][playedColumn];
+    let tilePoints = tileBasePoints[playedLetter];
 
     switch (boardValue) {
       case "2L":
@@ -99,7 +99,7 @@ function scoreHorizontalWords(
 
     // Invalid words are assigned a score of -1
     if (!validateWord(word)) {
-      return {word, score: -1}
+      return { word, score: -1 };
     }
 
     return { word, score: score * wordMultiplier };
@@ -145,11 +145,6 @@ function scoreVerticalWord(
       score += tilePoints;
       playedRowIndices.push(row);
     }
-  }
-
-  // If the vertical play consits only of 1 tile, we don't count it as a word
-  if (playedRowIndices.length === 1) {
-    return null
   }
 
   // Row index of topmost row where a tile was played
@@ -213,6 +208,11 @@ function scoreVerticalWord(
     bottomFixedRow == -1
       ? bottomPlayedRow
       : Math.max(bottomFixedRow, bottomPlayedRow);
+
+  // If the vertical play consits only of 1 tile, we don't count it as a word
+  if (firstLetterRow === lastLetterRow) {
+    return null;
+  }
 
   const word = getVerticalWord(
     playGrid,
