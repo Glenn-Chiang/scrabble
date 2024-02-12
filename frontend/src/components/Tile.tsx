@@ -99,7 +99,7 @@ export const UnplayedTile = ({
 
   return (
     <button
-      // disabled={turnState === "valid"}
+      disabled={turnState === "exchanged"}
       onClick={handleClick}
       className={`rounded w-10 h-10 flex justify-center items-center shadow font-bold relative ${
         isSelected

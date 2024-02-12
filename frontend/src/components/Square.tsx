@@ -66,7 +66,7 @@ export const EmptySquare = ({ value, row, col }: SquareProps) => {
 
   return (
     <button
-      disabled={gameProgress !== 'in-game' || turnState === 'exchanging'}
+      disabled={gameProgress !== 'in-game' || turnState === 'exchanging' || turnState === 'exchanged'}
       onClick={handleClick}
       className={`${color} hover:shadow text-white rounded min-w-10 h-10 flex justify-center items-center`}
     >

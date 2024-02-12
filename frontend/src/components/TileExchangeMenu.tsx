@@ -33,7 +33,7 @@ function ConfirmButton() {
 
   const handleClick = () => {
     exchangeTiles(selectedTiles);
-    dispatch(gameStateSlice.actions.setTurnState('valid'))
+    dispatch(gameStateSlice.actions.setTurnState('exchanged'))
   };
   return (
     <ActionButton

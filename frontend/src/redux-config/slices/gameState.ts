@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type TurnState = 'pending' | 'exchanging' | 'invalid' | 'valid'
+type TurnState = 'pending' | 'exchanging' | 'exchanged' | 'invalid' | 'valid'
 
 type GameProgress = 'pre-game' | 'in-game' | 'post-game'
 

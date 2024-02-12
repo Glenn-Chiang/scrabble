@@ -6,9 +6,9 @@ import { useEndGame } from "../lib/game-mechanics/endGame";
 import { useEvaluatePlay } from "../lib/game-mechanics/evaluatePlay";
 import { useSkipTurn } from "../lib/game-mechanics/skipTurn";
 import { useStartGame } from "../lib/game-mechanics/startGame";
+import { useSubmitPlay } from "../lib/game-mechanics/submitPlay";
 import { gameStateSlice } from "../redux-config/slices/gameState";
 import { useAppSelector } from "../redux-config/store";
-import { useSubmitPlay } from "../lib/game-mechanics/submitPlay";
 
 
 export function QuitButton() {
@@ -45,7 +45,7 @@ export function CheckButton() {
       icon={faCheckCircle}
       className="bg-sky-100 text-sky-500 "
       onClick={() => evaluatePlay()}
-      disabled={turnState === "exchanging" }
+      disabled={turnState === "exchanging" || turnState === "exchanged" }
     />
   );
 }
@@ -63,7 +63,7 @@ export function ExchangeTilesButton() {
       icon={faRefresh}
       className="bg-cyan-50 text-cyan-500"
       onClick={handleClick}
-      disabled={turnState === "exchanging" || turnState === "valid"}
+      disabled={turnState === "exchanging" || turnState === "exchanged"}
     />
   );
 }
@@ -78,7 +78,7 @@ export function SkipTurnButton() {
       icon={faArrowRightRotate}
       className="bg-rose-50 text-rose-400"
       onClick={() => skipTurn()}
-      disabled={turnState === "valid"}
+      disabled={turnState === 'exchanged'}
     />
   );
 }
@@ -89,10 +89,10 @@ export function SubmitButton() {
 
   return (
     <ActionButton
-      label="Submit play"
+      label="End turn"
       icon={faFastForward}
       className="bg-sky-500 text-white shadow shadow-sky-500"
-      disabled={turnState !== "valid"}
+      disabled={turnState !== "valid" && turnState !== 'exchanged'}
       onClick={() => submitPlay()}
     />
   );
