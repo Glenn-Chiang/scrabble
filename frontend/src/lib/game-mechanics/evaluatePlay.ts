@@ -22,7 +22,8 @@ export function useEvaluatePlay() {
     if (!validatePlacement(playGrid, tileGrid, turnNumber)) {
       console.log("Invalid play");
       dispatch(gameStateSlice.actions.setTurnState("invalid"));
-      dispatch(invalidWordsSlice.actions.reset())
+      dispatch(invalidWordsSlice.actions.reset());
+      dispatch(wordScoresSlice.actions.reset());
       return;
     }
 
@@ -36,14 +37,15 @@ export function useEvaluatePlay() {
         ? scoreHorizontalPlay(tileGrid, playGrid, boardGrid, playedRow)
         : scoreVerticalPlay(tileGrid, playGrid, boardGrid, playedColumn);
 
-    console.log(wordScores)
+    console.log(wordScores);
 
-    dispatch(invalidWordsSlice.actions.reset())
+    dispatch(invalidWordsSlice.actions.reset());
     let hasInvalidWord = false;
     for (const wordScore of wordScores) {
       if (wordScore.score < 0) {
         dispatch(invalidWordsSlice.actions.addWord(wordScore.word));
         dispatch(gameStateSlice.actions.setTurnState("invalid"));
+        dispatch(wordScoresSlice.actions.reset());
         hasInvalidWord = true;
       }
     }
@@ -53,7 +55,7 @@ export function useEvaluatePlay() {
 
     // Update scores for words played during current turn
     dispatch(wordScoresSlice.actions.set(wordScores));
-    
+
     dispatch(gameStateSlice.actions.setTurnState("valid"));
 
     return;

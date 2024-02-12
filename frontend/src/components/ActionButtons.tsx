@@ -45,7 +45,7 @@ export function CheckButton() {
       icon={faCheckCircle}
       className="bg-sky-100 text-sky-500 "
       onClick={() => evaluatePlay()}
-      disabled={turnState === "exchanging" || turnState === "valid"}
+      disabled={turnState === "exchanging" }
     />
   );
 }
