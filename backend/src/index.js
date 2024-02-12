@@ -11,7 +11,7 @@ app.get("/valid-words/:word", async (req, res, next) => {
     const word = req.params.word;
     const wordsString = await fs.readFile("./src/words.json", "utf-8");
     const words = JSON.parse(wordsString);
-    const wordIsValid = words[word] === 1;
+    const wordIsValid = words[word.toLowerCase()] === 1;
     res.json({ valid: wordIsValid });
   } catch (error) {
     next(error);

@@ -1,1 +1,1 @@
-GET http://localhost:3000/valid-words/testing
+GET http://localhost:3000/valid-words/me
