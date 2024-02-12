@@ -1,6 +1,5 @@
 import { BoardValue } from "../game-constants/board";
 import { tilePoints as tileBasePoints } from "../game-constants/tiles";
-import { validateWord } from "./validateWord";
 
 // Calculate score for a horizontal play
 export function scoreHorizontalPlay(
@@ -97,11 +96,6 @@ function scoreVerticalWords(
     if (letters.length === 1) return null;
     
     const word = letters.join("");
-
-    // Invalid words are assigned a score of -1
-    if (!validateWord(word)) {
-      return {word, score: -1};
-    }
 
     return { word, score: score * wordMultiplier };
   }
@@ -218,11 +212,6 @@ function scoreHorizontalWord(
     firstLetterCol,
     lastLetterCol
   );
-
-  // Invalid words are assigned a score of -1
-  if (!validateWord(word)) {
-    return { word, score: -1 };
-  }
 
   return { word, score: score * wordMultiplier };
 }

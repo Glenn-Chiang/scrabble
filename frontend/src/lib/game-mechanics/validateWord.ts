@@ -1,5 +1,3 @@
-import wordList from "../game-constants/wordList.json";
-
-export function validateWord(word: string): boolean {
-  return (wordList as {[word: string]: number})[word.toLowerCase()] === 1
+export async function validateWord(word: string) {
+  return true;
 }

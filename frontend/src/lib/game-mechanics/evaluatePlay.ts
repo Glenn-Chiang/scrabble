@@ -10,6 +10,7 @@ import {
   getPlayedRow,
   validatePlacement,
 } from "./validatePlacement";
+import { validateWord } from "./validateWord";
 
 export function useEvaluatePlay() {
   const tileGrid = useAppSelector((state) => state.tileGrid);
@@ -18,7 +19,7 @@ export function useEvaluatePlay() {
 
   const dispatch = useAppDispatch();
 
-  return (): void => {
+  return  async () => {
     if (!validatePlacement(playGrid, tileGrid, turnNumber)) {
       console.log("Invalid play");
       dispatch(gameStateSlice.actions.setTurnState("invalid"));
@@ -37,12 +38,12 @@ export function useEvaluatePlay() {
         ? scoreHorizontalPlay(tileGrid, playGrid, boardGrid, playedRow)
         : scoreVerticalPlay(tileGrid, playGrid, boardGrid, playedColumn);
 
-    console.log(wordScores);
 
     dispatch(invalidWordsSlice.actions.reset());
     let hasInvalidWord = false;
     for (const wordScore of wordScores) {
-      if (wordScore.score < 0) {
+      const wordIsValid = await validateWord(wordScore.word)
+      if (!wordIsValid) {
         dispatch(invalidWordsSlice.actions.addWord(wordScore.word));
         dispatch(gameStateSlice.actions.setTurnState("invalid"));
         dispatch(wordScoresSlice.actions.reset());
