@@ -3,12 +3,12 @@ import { faArrowRightRotate, faFastForward, faPlay, faRefresh } from "@fortaweso
 import { useDispatch } from "react-redux";
 import { ActionButton } from "../components/ActionButton";
 import { useEndGame } from "../lib/game-mechanics/endGame";
-import { useEndTurn } from "../lib/game-mechanics/endTurn";
 import { useEvaluatePlay } from "../lib/game-mechanics/evaluatePlay";
 import { useSkipTurn } from "../lib/game-mechanics/skipTurn";
 import { useStartGame } from "../lib/game-mechanics/startGame";
 import { gameStateSlice } from "../redux-config/slices/gameState";
 import { useAppSelector } from "../redux-config/store";
+import { useSubmitPlay } from "../lib/game-mechanics/submitPlay";
 
 
 export function QuitButton() {
@@ -35,13 +35,13 @@ export function StartButton() {
   );
 }
 
-export function SubmitButton() {
+export function CheckButton() {
   const evaluatePlay = useEvaluatePlay();
   const turnState = useAppSelector((state) => state.gameState.turnState);
 
   return (
     <ActionButton
-      label="Submit"
+      label="Check play"
       icon={faCheckCircle}
       className="bg-sky-100 text-sky-500 "
       onClick={() => evaluatePlay()}
@@ -83,17 +83,17 @@ export function SkipTurnButton() {
   );
 }
 
-export function EndTurnButton() {
-  const endTurn = useEndTurn();
+export function SubmitButton() {
+  const submitPlay = useSubmitPlay();
   const turnState = useAppSelector((state) => state.gameState.turnState);
 
   return (
     <ActionButton
-      label="End turn"
+      label="Submit play"
       icon={faFastForward}
       className="bg-sky-500 text-white shadow shadow-sky-500"
       disabled={turnState !== "valid"}
-      onClick={() => endTurn()}
+      onClick={() => submitPlay()}
     />
   );
 }

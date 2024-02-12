@@ -10,10 +10,10 @@ import { useAppSelector } from "../redux-config/store";
 import {
   StartButton,
   QuitButton,
-  SubmitButton,
+  CheckButton,
   ExchangeTilesButton,
   SkipTurnButton,
-  EndTurnButton,
+  SubmitButton,
 } from "../components/ActionButtons";
 
 export default function Play() {
@@ -36,8 +36,8 @@ export default function Play() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-white p-4 rounded-md w-full">
           <ExchangeTilesButton />
           <SkipTurnButton />
+          <CheckButton />
           <SubmitButton />
-          <EndTurnButton />
         </div>
       )}
 

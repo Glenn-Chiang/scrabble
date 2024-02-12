@@ -1,10 +1,10 @@
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useCurrentPlayer } from "../lib/game-mechanics/useCurrentPlayer";
 import { playGridSlice } from "../redux-config/slices/playGrid";
+import { playerTilesSlice } from "../redux-config/slices/playerTiles";
 import { useAppDispatch, useAppSelector } from "../redux-config/store";
 import { FixedTile, PlayedTile } from "./Tile";
-import { playerTilesSlice } from "../redux-config/slices/playerTiles";
-import { useCurrentPlayer } from "../lib/game-mechanics/useCurrentPlayer";
 
 interface SquareProps {
   value: string;
@@ -33,6 +33,7 @@ export const Square = ({ value, row, col }: SquareProps) => {
 
 export const EmptySquare = ({ value, row, col }: SquareProps) => {
   const dispatch = useAppDispatch();
+
   const selectedTileIndex = useAppSelector(
     (state) => state.selectedTile.selectedTileIndex
   );
@@ -65,7 +66,7 @@ export const EmptySquare = ({ value, row, col }: SquareProps) => {
 
   return (
     <button
-      disabled={gameProgress !== 'in-game' || turnState === "valid" || turnState === 'exchanging'}
+      disabled={gameProgress !== 'in-game' || turnState === 'exchanging'}
       onClick={handleClick}
       className={`${color} hover:shadow text-white rounded min-w-10 h-10 flex justify-center items-center`}
     >
