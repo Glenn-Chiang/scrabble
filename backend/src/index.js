@@ -1,7 +1,10 @@
 const express = require("express");
 const fs = require("fs").promises;
+const cors = require('cors')
 
 const app = express();
+
+app.use(cors())
 
 app.get("/valid-words/:word", async (req, res, next) => {
   try {
