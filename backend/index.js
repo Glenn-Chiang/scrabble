@@ -1,14 +1,13 @@
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 
 const bucketName = "scrabble-words";
-const fileName = "words_dictionary.json";
+const fileName = "words.json";
 
 export const handler = async function (event) {
   const word = event.queryStringParameters.word;
 
-  await getFileFromS3(bucketName, fileName)
-  
-  const words = JSON.parse(wordsString);
+  const fileData = await getFileFromS3(bucketName, fileName)
+  const words = JSON.parse(fileData);
   const wordIsValid = words[word.toLowerCase()] === 1;
 
   return {
@@ -23,7 +22,6 @@ export const handler = async function (event) {
   };
 };
 
-
 async function getFileFromS3(bucketName, fileName) {
   const client = new S3Client({});
 
@@ -31,6 +29,6 @@ async function getFileFromS3(bucketName, fileName) {
     new GetObjectCommand({ Bucket: bucketName, Key: fileName })
   );
 
-  const fileData = await Body.transformToString();
-  return fileData
+  const fileDataString = await Body.transformToString()
+  return fileDataString
 }
