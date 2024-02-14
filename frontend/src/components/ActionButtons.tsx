@@ -9,6 +9,7 @@ import { useStartGame } from "../lib/game-mechanics/startGame";
 import { useSubmitPlay } from "../lib/game-mechanics/submitPlay";
 import { gameStateSlice } from "../redux-config/slices/gameState";
 import { useAppSelector } from "../redux-config/store";
+import { useState } from "react";
 
 
 export function QuitButton() {
@@ -36,16 +37,23 @@ export function StartButton() {
 }
 
 export function CheckButton() {
-  const evaluatePlay = useEvaluatePlay();
   const turnState = useAppSelector((state) => state.gameState.turnState);
+  const [checking, setChecking] = useState(false)
+  const evaluatePlay = useEvaluatePlay();
+
+  const handleClick = async () => {
+    setChecking(true)
+    await evaluatePlay()
+    setChecking(false)
+  }
 
   return (
     <ActionButton
-      label="Check play"
+      label={checking ? "Checking..." : "Check play"}
       icon={faCheckCircle}
       className="bg-sky-100 text-sky-500 "
-      onClick={() => evaluatePlay()}
-      disabled={turnState === "exchanging" || turnState === "exchanged" }
+      onClick={handleClick}
+      disabled={checking || turnState === "exchanging" || turnState === "exchanged" }
     />
   );
 }
