@@ -4,9 +4,9 @@ Enjoy the interpersonal interaction of the familiar board game experience, made 
 # Features
 - 2-player local multiplayer
   - Why not online multiplayer? Because I don't know how to code that!
-- Automated checking of validity of words against a comprehensive word list. No more arguing or rushing to search the dictionary after every move!
-- Automated calculation and tracking of scores. No need to whip out the calculators.
-- Responsive design ensures a comfortable user experience for both mobile and desktop.
+- Automated checking of validity of words against a comprehensive word list
+- Automated calculation and tracking of scores
+- Responsive design ensures a comfortable user experience for both mobile and desktop
 - Faithful implementation of all core Scrabble mechanics including:
   - Exchanging 1 or more tiles for an equal number of random tiles from the bag
   - Skipping your turn
