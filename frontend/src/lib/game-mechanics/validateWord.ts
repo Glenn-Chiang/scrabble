@@ -1,7 +1,9 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
+const function_url = import.meta.env.VITE_FUNCTION_URL;
 
 export async function validateWord(word: string): Promise<boolean> {
-  const response = await fetch(`${BASE_URL}/valid-words/${word.toLowerCase()}`);
+  const response = await fetch(
+    function_url + "?" + new URLSearchParams({ word })
+  );
   const data: { valid: boolean } = await response.json();
 
   return data.valid;
