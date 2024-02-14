@@ -27,3 +27,14 @@ Enjoy the interpersonal interaction of the familiar board game experience, made 
    ```
    npm run dev
    ```
+## Backend setup
+1. Open the Lambda console
+2. Choose Create function
+3. Configure the following settings:
+   - Function name: Enter a name for the function
+   - Runtime: Choose Node.js 20.x
+4. Choose Create function
+- Create function URL
+- Allow public access to function
+- Enable CORS
+- Increase max memory limit  

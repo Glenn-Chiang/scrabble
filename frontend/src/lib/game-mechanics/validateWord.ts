@@ -1,10 +1,5 @@
-const function_url = import.meta.env.VITE_FUNCTION_URL;
-
-export async function validateWord(word: string): Promise<boolean> {
-  const response = await fetch(
-    function_url + "?" + new URLSearchParams({ word })
-  );
-  const data: { valid: boolean } = await response.json();
-
-  return data.valid;
+export async function validateWord(word: string) {
+  const response = await fetch('/words.json')
+  const wordsData = await response.json()
+  return wordsData[word.toLowerCase()] === 1
 }
